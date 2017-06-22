@@ -6,7 +6,8 @@
 
     <description><![CDATA[Makes development with Roc even more pleasant.]]></description>
 
-    <change-notes><![CDATA[No change for you!]]>
+    <change-notes>
+        <![CDATA[Change must come from within!]]>
     </change-notes>
 
     <idea-version since-build="145.0"/>
@@ -15,7 +16,9 @@
     <depends>org.jetbrains.plugins.terminal</depends>
     <depends>JavaScript</depends>
 
-    <extensions defaultExtensionNs="com.intellij"/>
+    <extensions defaultExtensionNs="com.intellij">
+        <completion.contributor language="JavaScript" implementationClass="Completions.RocSettingsProvider" order="first"/>
+    </extensions>
 
     <actions>
         <action

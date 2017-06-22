@@ -1,28 +1,31 @@
-package Actions;
+package Terminal;
 
 import com.intellij.openapi.project.Project;
-import com.intellij.util.ArrayUtil;
-import org.apache.commons.lang.ArrayUtils;
 import org.jetbrains.plugins.terminal.LocalTerminalDirectRunner;
-
 import java.util.Arrays;
 import java.util.Map;
 import java.util.stream.Stream;
 
-public class RocTerminalRunner extends LocalTerminalDirectRunner {
-    RocTerminalRunner(Project project) {
+public class CustomCommandRunner extends LocalTerminalDirectRunner {
+    private String customCommand;
+
+    public CustomCommandRunner(Project project, String customCommand)
+    {
         super(project);
+        this.customCommand = customCommand;
     }
 
     @Override
-    public String runningTargetName() {
+    public String runningTargetName()
+    {
         return "Roc terminal";
     }
 
     @Override
-    public String[] getCommand(Map<String, String> envs) {
+    public String[] getCommand(Map<String, String> envs)
+    {
         String[] command = super.getCommand(envs);
-        String rocCommand[] = {"-c", "roc dev"};
+        String rocCommand[] = {"-c", customCommand};
 
         return Stream
             .concat(Arrays.stream(command), Arrays.stream(rocCommand))
