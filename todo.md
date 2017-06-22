@@ -1,0 +1,14 @@
+- Notifications about new versions.
+- Toggle auto-refresh of browser-tab after dev-build.
+- completions and goto for:
+    - roc.config.js
+    - config-settings(development, staging, production)
+    - getSettings()
+    - Routes defined in configured middleware
+    - Redux-state/props/actions
+
+- Start "roc dev"
+    - Put a name on the tab.
+    - Where is my effin' icon?
+    - Re-use existing tabs.
+    - Force NODE_ENV to development.
