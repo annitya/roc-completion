@@ -1,10 +1,21 @@
+Current
+-------
+- Completions for config-settings
+    - Parse of either default/development(js/json)
+    - Provide references from import { lulz } from 'config';
+    - Only need to reference base-elements.
+
+Todo
+----
 - Notifications about new versions.
 - Toggle auto-refresh of browser-tab after dev-build.
 - completions and goto for:
-    - config-settings(development, staging, production)
     - getSettings()
     - Routes defined in configured middleware
     - Redux-state/props/actions
+
+Done, but not quite
+-------------------
 
 - Start "roc dev"
     - Put a name on the tab.
