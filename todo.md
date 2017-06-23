@@ -1,9 +1,9 @@
 Current
 -------
 - Completions for config-settings
-    - Parse of either default/development(js/json)
+    - Parse config-files (js/json)
     - Provide references from import { lulz } from 'config';
-    - Only need to reference base-elements.
+    - Probably only need to reference base-elements.
 
 Todo
 ----
@@ -26,4 +26,4 @@ Done, but not quite
 - completions for roc.config.js:
     - Remove existing values from suggestions.
     - Would goto be valuable?
-    - Inline default-values.
+    - Settings containing dashes must be quoted.
