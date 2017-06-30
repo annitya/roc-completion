@@ -1,121 +1,74 @@
 package Completions;
 
-import com.google.common.collect.Lists;
 import com.intellij.codeInsight.completion.CompletionParameters;
 import com.intellij.lang.javascript.psi.JSProperty;
-import com.intellij.psi.PsiElement;
 import com.intellij.psi.util.PsiTreeUtil;
 
-import java.util.ArrayList;
-import java.util.StringJoiner;
+import java.util.*;
 
-class SettingCompletionBuilder {
-    static ArrayList<SettingCompletion> parse(CompletionParameters parameters, ArrayList<String> candidates)
+class SettingCompletionBuilder
+{
+    static ArrayList<SettingLookupElement> filterCompletions(ArrayList<Setting> candidates, CompletionParameters parameters)
     {
-        ArrayList<SettingCompletion> validCompletions = new ArrayList<>();
-        String propertyFilter = buildPropertyFilter(parameters);
+        ArrayList<SettingLookupElement> validCompletions = new ArrayList<>();
+        JSProperty property = PsiTreeUtil.getParentOfType(parameters.getPosition(), JSProperty.class);
 
-        if (propertyFilter == null)
+        // Unable to determine where in roc.settings.js we are.
+        if (property == null)
         {
             return validCompletions;
         }
 
-        for (String candidate : candidates)
-        {
-            SettingCompletion completion = parseCandidate(candidate, propertyFilter);
+        String namespace = property
+            .getJSNamespace()
+            .toString();
 
-            if (completion == null)
+        // Wrong file, or wrong structure.
+        if (!namespace.startsWith(Setting.ROOT_NAMESPACE)) {
+            return validCompletions;
+        }
+
+        ArrayList<String> existingSettings = findExistingSettings(parameters);
+
+        for (Setting candidate : candidates)
+        {
+            // Setting is below or beyond current scope.
+            if (!candidate.isApplicable(namespace))
             {
                 continue;
             }
 
-            validCompletions.add(completion);
+            SettingLookupElement lookupElement = new SettingLookupElement(candidate, namespace);
+
+            if (existingSettings.contains(lookupElement.getLookupString()))
+            {
+                continue;
+            }
+
+            validCompletions.add(lookupElement);
         }
 
         return validCompletions;
     }
 
-    static private SettingCompletion parseCandidate(String candidate, String propertyFilter)
+    static private ArrayList<String> findExistingSettings(CompletionParameters parameters)
     {
-        String filteredCandidate = candidate
-                .replace("|", "")
-                .replace("-", "")
-                .trim();
+        ArrayList<String> existingSettings = new ArrayList<>();
 
-        if (filteredCandidate.length() == 0) {
-            return null;
-        }
-
-        String parts[] = candidate.split("\\|");
-        ArrayList<String> trimmedParts = new ArrayList<>();
-
-        for (String part : parts)
+        try
         {
-            trimmedParts.add(part.trim());
-        }
+            JSProperty parentProperty = PsiTreeUtil.getParentOfType(parameters.getPosition(), JSProperty.class);
+            RecursivePropertyWalker walker = new RecursivePropertyWalker(parentProperty);
 
-        if (trimmedParts.get(1).equals("Description")) {
-            return null;
-        }
+            walker.visitFile(parameters.getOriginalFile());
 
-        String name = trimmedParts.get(2);
-
-        if (!name.startsWith(propertyFilter))
-        {
-            return null;
-        }
-
-        name = name.replaceFirst(propertyFilter, "");
-
-        trimmedParts.set(2, name);
-
-        return new SettingCompletion(trimmedParts);
-    }
-
-    static private String buildPropertyFilter(CompletionParameters parameters)
-    {
-        PsiElement currentElement = parameters.getPosition();
-        ArrayList<JSProperty> properties = new ArrayList<>();
-
-        while (true)
-        {
-            if (currentElement == null)
+            for (JSProperty existingProperty : walker.getExistingProperties())
             {
-                break;
+                existingSettings.add(existingProperty.getName());
             }
-
-            JSProperty property = PsiTreeUtil.getParentOfType(currentElement, JSProperty.class);
-
-            if (property == null)
-            {
-                break;
-            }
-
-            String name = property.getName();
-
-            if (name == null || name.equals("IntellijIdeaRulezzz"))
-            {
-                currentElement = currentElement.getParent();
-                continue;
-            }
-
-            properties.add(property);
-            currentElement = property;
         }
+        catch (Exception ignored) {}
 
-        StringJoiner joiner = new StringJoiner(".", "", ".");
-
-        for (JSProperty property : Lists.reverse(properties))
-        {
-            joiner.add(property.getName());
-        }
-
-        String propertyFilter = joiner.toString();
-
-        if (!propertyFilter.startsWith("settings.")) {
-            return null;
-        }
-
-        return propertyFilter.replaceFirst("settings.", "");
+        return existingSettings;
     }
 }
