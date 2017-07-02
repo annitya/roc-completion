@@ -11,8 +11,6 @@ public class ConfigContributor extends PsiReferenceContributor
     public void registerReferenceProviders(@NotNull PsiReferenceRegistrar psiReferenceRegistrar)
     {
         ConfigReferenceProvider provider = new ConfigReferenceProvider();
-
         psiReferenceRegistrar.registerReferenceProvider(StandardPatterns.instanceOf(JSElement.class), provider);
-        
     }
 }

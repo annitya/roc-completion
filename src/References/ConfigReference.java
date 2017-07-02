@@ -20,13 +20,32 @@ public class ConfigReference extends PsiReferenceBase<PsiElement> implements Psi
     @Override
     public ResolveResult[] multiResolve(boolean b)
     {
-        return new ResolveResult[0];
+        ResolveResult result = new ResolveResult()
+        {
+            @Nullable
+            @Override
+            public PsiElement getElement()
+            {
+                return myElement;
+            }
+
+            @Override
+            public boolean isValidResult()
+            {
+                return true;
+            }
+        };
+
+        ResolveResult[] results = new ResolveResult[1];
+        results[0] = result;
+
+        return results;
     }
 
     @Override
     public PsiElement getElement()
     {
-        return null;
+        return myElement;
     }
 
     @Override
@@ -39,14 +58,14 @@ public class ConfigReference extends PsiReferenceBase<PsiElement> implements Psi
     @Override
     public PsiElement resolve()
     {
-        return null;
+        return myElement;
     }
 
     @NotNull
     @Override
     public String getCanonicalText()
     {
-        return null;
+        return "canon?";
     }
 
     @Override
@@ -58,13 +77,13 @@ public class ConfigReference extends PsiReferenceBase<PsiElement> implements Psi
     @Override
     public PsiElement bindToElement(@NotNull PsiElement psiElement) throws IncorrectOperationException
     {
-        return null;
+        return myElement;
     }
 
     @Override
     public boolean isReferenceTo(PsiElement psiElement)
     {
-        return false;
+        return true;
     }
 
     @NotNull
