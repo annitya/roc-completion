@@ -13,14 +13,8 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.stream.Stream;
 
-public class CustomCommandRunner extends LocalTerminalDirectRunner {
-    private String customCommand;
-
-    public CustomCommandRunner(Project project, String customCommand)
-    {
-        super(project);
-        this.customCommand = customCommand;
-    }
+public class Roc extends LocalTerminalDirectRunner {
+    public Roc(Project project) { super(project); }
 
     @Override
     public void openSessionInDirectory(@NotNull TerminalWidget terminalWidget, @Nullable String directory)
@@ -67,7 +61,7 @@ public class CustomCommandRunner extends LocalTerminalDirectRunner {
         envs.put("NODE_ENV", "development");
         String[] command = super.getCommand(envs);
 
-        String rocCommand[] = {"-c", customCommand};
+        String rocCommand[] = {"-c", "roc dev"};
 
         return Stream
             .concat(Arrays.stream(command), Arrays.stream(rocCommand))

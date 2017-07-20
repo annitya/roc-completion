@@ -3,19 +3,18 @@ package Completions;
 import com.intellij.codeInsight.completion.InsertionContext;
 import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.codeInsight.lookup.LookupElementPresentation;
-import com.intellij.lang.PsiBuilderFactory;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiFileFactory;
 import com.intellij.psi.util.PsiUtilBase;
 import org.jetbrains.annotations.NotNull;
 
-public class SettingLookupElement extends LookupElement
+class SettingLookupElement extends LookupElement
 {
-    private String completion;
-    private String lookupString;
-    private String defaultValue;
-    private String tailText;
+    private final String completion;
+    private final String lookupString;
+    private final String defaultValue;
+    private final String tailText;
 
     SettingLookupElement(Setting setting, String namespace)
     {

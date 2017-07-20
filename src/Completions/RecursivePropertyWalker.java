@@ -6,10 +6,10 @@ import com.intellij.lang.javascript.psi.JSRecursiveWalkingElementVisitor;
 
 import java.util.ArrayList;
 
-public class RecursivePropertyWalker extends JSRecursiveWalkingElementVisitor
+class RecursivePropertyWalker extends JSRecursiveWalkingElementVisitor
 {
-    private ArrayList<JSProperty> existingProperties;
-    private String namespace;
+    private final ArrayList<JSProperty> existingProperties;
+    private final String namespace;
 
     RecursivePropertyWalker(JSProperty parentProperty)
     {

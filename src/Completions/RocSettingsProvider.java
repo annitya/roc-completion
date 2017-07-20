@@ -17,16 +17,16 @@ public class RocSettingsProvider extends CompletionContributor {
                 .getProject();
 
         CompletionPreloader preloader = project.getComponent(CompletionPreloader.class);
-        ArrayList<Setting> candidates = preloader.getCompletions();
-        ArrayList<SettingLookupElement> validCompletions = SettingCompletionBuilder.filterCompletions(candidates, parameters);
+        // ArrayList<Setting> candidates = preloader.getCompletions();
+        // ArrayList<SettingLookupElement> validCompletions = SettingCompletionBuilder.filterCompletions(candidates, parameters);
 
-        result.addAllElements(validCompletions);
+        // result.addAllElements(validCompletions);
 
-        if (validCompletions.size() > 0) {
-            result.stopHere();
-        }
-        else {
+        // if (validCompletions.size() > 0) {
+            // result.stopHere();
+        // }
+        // else {
             result.runRemainingContributors(parameters, true);
-        }
+        // }
     }
 }

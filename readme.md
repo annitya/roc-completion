@@ -5,13 +5,14 @@ Current
 
 Todo
 ----
-- Notifications about new versions.
+- Notifications about new roc-versions with changelog.
 - Toggle auto-refresh of browser-tab after dev-build.
 - completions and goto for:
     - getSettings()
     - Routes defined in configured middleware?
     - Redux-state/props/actions.
         - Is it even possble to resolve composite redux-state?
+- Look into NodeCommandLineUtil
 
 Done, but not quite
 -------------------

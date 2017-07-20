@@ -44,5 +44,4 @@
             <implementation-class>Framework.CompletionPreloader</implementation-class>
         </component>
     </project-components>
-
 </idea-plugin>

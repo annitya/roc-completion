@@ -2,9 +2,9 @@ package Goto;
 
 import com.intellij.codeInsight.navigation.actions.GotoDeclarationHandler;
 import com.intellij.lang.Language;
-import com.intellij.lang.ecmascript6.psi.ES6FromClause;
 import com.intellij.lang.ecmascript6.psi.ES6ImportDeclaration;
 import com.intellij.lang.ecmascript6.psi.ES6ImportedBinding;
+import com.intellij.lang.ecmascript6.psi.impl.ES6ImportPsiUtil;
 import com.intellij.openapi.actionSystem.DataContext;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
@@ -18,15 +18,8 @@ public class ConfigHandler implements GotoDeclarationHandler
 {
     public Boolean isConfigReference(ES6ImportDeclaration importDeclaration)
     {
-        ES6FromClause fromClause = importDeclaration.getFromClause();
-
-        if (fromClause == null)
-        {
-            return false;
-        }
-
-        PsiReference reference = fromClause.getReference();
-        return reference != null && reference.getCanonicalText().equals("config");
+        String fromClauseText = ES6ImportPsiUtil.getFromClauseText(importDeclaration);
+        return fromClauseText != null && fromClauseText.equals("config");
 
     }
 

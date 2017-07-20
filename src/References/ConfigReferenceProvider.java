@@ -2,20 +2,18 @@ package References;
 
 import Goto.ConfigHandler;
 import com.intellij.lang.ecmascript6.psi.ES6ImportDeclaration;
-import com.intellij.lang.javascript.psi.JSFile;
-import com.intellij.lang.javascript.psi.JSReferenceExpression;
-import com.intellij.lang.javascript.psi.JSSourceElement;
+import com.intellij.lang.ecmascript6.psi.impl.ES6ImportPsiUtil;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiReference;
 import com.intellij.psi.PsiReferenceProvider;
-import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.util.ProcessingContext;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
-public class ConfigReferenceProvider extends PsiReferenceProvider
+class ConfigReferenceProvider extends PsiReferenceProvider
 {
     @NotNull
     @Override
@@ -25,13 +23,7 @@ public class ConfigReferenceProvider extends PsiReferenceProvider
 
         try
         {
-            JSFile file = (JSFile)psiElement.getContainingFile();
-            ES6ImportDeclaration[] importDeclarations = PsiTreeUtil.getChildrenOfType(file, ES6ImportDeclaration.class);
-
-            if (importDeclarations == null)
-            {
-                return PsiReference.EMPTY_ARRAY;
-            }
+            Collection<ES6ImportDeclaration> importDeclarations = ES6ImportPsiUtil.getImportDeclarations(psiElement.getContainingFile());
 
             for (ES6ImportDeclaration importDeclaration : importDeclarations)
             {
@@ -48,7 +40,7 @@ public class ConfigReferenceProvider extends PsiReferenceProvider
 
                 for (int i = 0; i < configTargets.length; i++)
                 {
-                    configReferences[i] = new ConfigReference(configTargets[i]);
+                    configReferences[i] = new ConfigReference(psiElement, configTargets[i]);
                 }
 
                 return configReferences;

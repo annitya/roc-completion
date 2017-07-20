@@ -7,7 +7,7 @@ import com.intellij.psi.PsiFile;
 
 class ConfigWalker extends JSRecursiveWalkingElementVisitor
 {
-    String propertyName;
+    final String propertyName;
     PsiElement match;
 
     ConfigWalker(String propertyName)

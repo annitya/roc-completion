@@ -2,64 +2,33 @@ package References;
 
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiPolyVariantReference;
 import com.intellij.psi.PsiReferenceBase;
-import com.intellij.psi.ResolveResult;
 import com.intellij.util.IncorrectOperationException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class ConfigReference extends PsiReferenceBase<PsiElement> implements PsiPolyVariantReference
+class ConfigReference extends PsiReferenceBase<PsiElement>
 {
-    public ConfigReference(@NotNull PsiElement element)
+    private final PsiElement target;
+
+    ConfigReference(@NotNull PsiElement element, PsiElement target)
     {
         super(element);
-    }
-
-    @NotNull
-    @Override
-    public ResolveResult[] multiResolve(boolean b)
-    {
-        ResolveResult result = new ResolveResult()
-        {
-            @Nullable
-            @Override
-            public PsiElement getElement()
-            {
-                return myElement;
-            }
-
-            @Override
-            public boolean isValidResult()
-            {
-                return true;
-            }
-        };
-
-        ResolveResult[] results = new ResolveResult[1];
-        results[0] = result;
-
-        return results;
+        this.target = target;
     }
 
     @Override
-    public PsiElement getElement()
-    {
-        return myElement;
-    }
+    public PsiElement getElement() { return myElement; }
 
     @Override
     public TextRange getRangeInElement()
     {
-        return null;
+        return myElement.getTextRange();
     }
 
     @Nullable
     @Override
-    public PsiElement resolve()
-    {
-        return myElement;
-    }
+    public PsiElement resolve() { return target; }
 
     @NotNull
     @Override
@@ -77,25 +46,22 @@ public class ConfigReference extends PsiReferenceBase<PsiElement> implements Psi
     @Override
     public PsiElement bindToElement(@NotNull PsiElement psiElement) throws IncorrectOperationException
     {
-        return myElement;
+        return null;
     }
 
     @Override
     public boolean isReferenceTo(PsiElement psiElement)
     {
-        return true;
+        return target.equals(psiElement);
     }
 
     @NotNull
     @Override
     public Object[] getVariants()
     {
-        return new Object[0];
+        return new String[] { target.getText() };
     }
 
     @Override
-    public boolean isSoft()
-    {
-        return false;
-    }
+    public boolean isSoft() { return false; }
 }

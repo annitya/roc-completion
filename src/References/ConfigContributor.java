@@ -1,6 +1,5 @@
 package References;
 
-import com.intellij.lang.javascript.psi.JSElement;
 import com.intellij.patterns.StandardPatterns;
 import com.intellij.psi.*;
 import org.jetbrains.annotations.NotNull;
@@ -11,6 +10,6 @@ public class ConfigContributor extends PsiReferenceContributor
     public void registerReferenceProviders(@NotNull PsiReferenceRegistrar psiReferenceRegistrar)
     {
         ConfigReferenceProvider provider = new ConfigReferenceProvider();
-        psiReferenceRegistrar.registerReferenceProvider(StandardPatterns.instanceOf(JSElement.class), provider);
+        psiReferenceRegistrar.registerReferenceProvider(StandardPatterns.instanceOf(PsiElement.class), provider);
     }
 }

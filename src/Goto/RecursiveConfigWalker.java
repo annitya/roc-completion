@@ -1,11 +1,9 @@
 package Goto;
 
 import com.intellij.lang.javascript.psi.JSAssignmentExpression;
-import com.intellij.lang.javascript.psi.JSExpression;
 import com.intellij.lang.javascript.psi.JSProperty;
-import com.intellij.psi.PsiElement;
 
-public class RecursiveConfigWalker extends ConfigWalker
+class RecursiveConfigWalker extends ConfigWalker
 {
     RecursiveConfigWalker(String propertyName) { super(propertyName); }
 
@@ -13,8 +11,9 @@ public class RecursiveConfigWalker extends ConfigWalker
     public void visitJSProperty(JSProperty node)
     {
         String nodeNamespace = node.getJSNamespace().toString();
+        String nodeName = node.getName() != null ? node.getName() : "";
 
-        if (nodeNamespace.equals("ClientConfig") && node.getName().equals(propertyName))
+        if (nodeNamespace.equals("ClientConfig") && nodeName.equals(propertyName))
         {
             match = node;
             stopWalking();

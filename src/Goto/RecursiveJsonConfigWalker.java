@@ -4,7 +4,7 @@ import com.intellij.json.psi.JsonFile;
 import com.intellij.json.psi.JsonProperty;
 import com.intellij.psi.PsiElement;
 
-public class RecursiveJsonConfigWalker extends ConfigWalker
+class RecursiveJsonConfigWalker extends ConfigWalker
 {
     RecursiveJsonConfigWalker(String propertyName) { super(propertyName); }
 
