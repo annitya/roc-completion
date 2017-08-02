@@ -45,10 +45,6 @@ Next version
     - That should be easy... not!
 - Auto-open dialogue for sub-completion-types.
     - Make sure they are wrapped in quotes.
-- Provide user with feedback if completions can't be fetched.
-    - Fire burn and cauldron bubble
-- Move preloading to separate process
-    - How did taskRunner work again?
 - Honor preferred quotes and usage of trailing commas.
         
 Future versions

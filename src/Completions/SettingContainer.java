@@ -12,6 +12,8 @@ public class SettingContainer
     private List<SettingTreeNode> settings;
     private NavigableMap<String, Setting> flatList;
 
+    public SettingContainer() {}
+
     public SettingContainer(List<SettingTreeNode> settings)
     {
         this.settings = settings;
