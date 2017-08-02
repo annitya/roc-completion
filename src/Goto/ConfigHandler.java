@@ -13,6 +13,7 @@ import com.intellij.psi.*;
 import com.intellij.psi.util.PsiTreeUtil;
 import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ConfigHandler implements GotoDeclarationHandler
 {
@@ -23,9 +24,9 @@ public class ConfigHandler implements GotoDeclarationHandler
 
     }
 
-    public ArrayList<PsiFile> getConfigFiles(Project project)
+    public List<PsiFile> getConfigFiles(Project project)
     {
-        ArrayList<PsiFile> configFiles = new ArrayList<>();
+        List<PsiFile> configFiles = new ArrayList<>();
 
         VirtualFile configDirectory = project
             .getBaseDir()
@@ -75,7 +76,7 @@ public class ConfigHandler implements GotoDeclarationHandler
             return PsiElement.EMPTY_ARRAY;
         }
 
-        ArrayList<PsiFile> configFiles = getConfigFiles(psiElement.getProject());
+        List<PsiFile> configFiles = getConfigFiles(psiElement.getProject());
 
         // Whole config was imported, so just return list of config-files.
         if (psiElement.getParent() instanceof ES6ImportedBinding)
@@ -87,9 +88,9 @@ public class ConfigHandler implements GotoDeclarationHandler
         return getConfigTargets(configFiles, propertyName);
     }
 
-    public PsiElement[] getConfigTargets(ArrayList<PsiFile> configFiles, String propertyName)
+    public PsiElement[] getConfigTargets(List<PsiFile> configFiles, String propertyName)
     {
-        ArrayList<PsiElement> matches = new ArrayList<>();
+        List<PsiElement> matches = new ArrayList<>();
 
         for (PsiFile configFile : configFiles)
         {

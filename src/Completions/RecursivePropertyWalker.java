@@ -1,25 +1,15 @@
 package Completions;
 
-import com.intellij.lang.javascript.psi.JSNamespace;
 import com.intellij.lang.javascript.psi.JSProperty;
 import com.intellij.lang.javascript.psi.JSRecursiveWalkingElementVisitor;
-
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 class RecursivePropertyWalker extends JSRecursiveWalkingElementVisitor
 {
-    private final ArrayList<JSProperty> existingProperties;
-    private final String namespace;
+    private final Map<String, JSProperty> existingProperties = new HashMap<>();
 
-    RecursivePropertyWalker(JSProperty parentProperty)
-    {
-        super();
-
-        existingProperties = new ArrayList<>();
-        namespace = parentProperty.getJSNamespace().toString();
-    }
-
-    ArrayList<JSProperty> getExistingProperties()
+    Map<String, JSProperty> getExistingProperties()
     {
         return existingProperties;
     }
@@ -27,12 +17,7 @@ class RecursivePropertyWalker extends JSRecursiveWalkingElementVisitor
     @Override
     public void visitJSProperty(JSProperty node)
     {
-        JSNamespace jsNamespace = node.getJSNamespace();
-
-        if (jsNamespace.toString().equals(namespace)) {
-            existingProperties.add(node);
-        }
-
+        existingProperties.put(node.getQualifiedName(), node);
         super.visitJSProperty(node);
     }
 }

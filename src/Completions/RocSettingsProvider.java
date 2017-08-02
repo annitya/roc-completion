@@ -1,32 +1,36 @@
 package Completions;
 
-import Framework.CompletionPreloader;
 import com.intellij.codeInsight.completion.CompletionContributor;
+import com.intellij.codeInsight.completion.CompletionInitializationContext;
 import com.intellij.codeInsight.completion.CompletionParameters;
 import com.intellij.codeInsight.completion.CompletionResultSet;
-import com.intellij.openapi.project.Project;
 import org.jetbrains.annotations.NotNull;
-import java.util.ArrayList;
+import java.util.List;
 
-public class RocSettingsProvider extends CompletionContributor {
+public class RocSettingsProvider extends CompletionContributor
+{
+    @Override
+    public void beforeCompletion(@NotNull CompletionInitializationContext context)
+    {
+        context.setDummyIdentifier("property: 0,");
+    }
+
     @Override
     public void fillCompletionVariants(@NotNull CompletionParameters parameters, @NotNull CompletionResultSet result)
     {
-        Project project = parameters
-                .getPosition()
-                .getProject();
+        List<SettingLookupElement> completions = SettingCompletionBuilder.buildCompletions(parameters);
+        boolean foundCompletions = completions.size() > 0;
 
-        CompletionPreloader preloader = project.getComponent(CompletionPreloader.class);
-        // ArrayList<Setting> candidates = preloader.getCompletions();
-        // ArrayList<SettingLookupElement> validCompletions = SettingCompletionBuilder.filterCompletions(candidates, parameters);
-
-        // result.addAllElements(validCompletions);
-
-        // if (validCompletions.size() > 0) {
-            // result.stopHere();
-        // }
-        // else {
+        // Add regular completions to the beginning of the list if user requested extended completions.
+        if (!foundCompletions || parameters.isExtendedCompletion())
+        {
             result.runRemainingContributors(parameters, true);
-        // }
+        }
+        else
+        {
+            result.stopHere();
+        }
+
+        result.addAllElements(completions);
     }
 }

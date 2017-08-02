@@ -1,22 +1,24 @@
 package Completions;
 
+import Framework.CompletionPreloader;
 import com.intellij.codeInsight.completion.CompletionParameters;
 import com.intellij.lang.javascript.psi.JSProperty;
+import com.intellij.psi.PsiElement;
 import com.intellij.psi.util.PsiTreeUtil;
-
 import java.util.*;
+import java.util.stream.Collectors;
 
 class SettingCompletionBuilder
 {
-    static ArrayList<SettingLookupElement> filterCompletions(ArrayList<Setting> candidates, CompletionParameters parameters)
+    static List<SettingLookupElement> buildCompletions(CompletionParameters parameters)
     {
-        ArrayList<SettingLookupElement> validCompletions = new ArrayList<>();
-        JSProperty property = PsiTreeUtil.getParentOfType(parameters.getPosition(), JSProperty.class);
+        PsiElement position = parameters.getPosition();
+        JSProperty property = PsiTreeUtil.getParentOfType(position, JSProperty.class);
 
         // Unable to determine where in roc.settings.js we are.
         if (property == null)
         {
-            return validCompletions;
+            return Collections.emptyList();
         }
 
         String namespace = property
@@ -24,51 +26,36 @@ class SettingCompletionBuilder
             .toString();
 
         // Wrong file, or wrong structure.
-        if (!namespace.startsWith(Setting.ROOT_NAMESPACE)) {
-            return validCompletions;
+        if (!namespace.startsWith(SettingContainer.ROOT_NAMESPACE)) {
+            return Collections.emptyList();
         }
 
-        ArrayList<String> existingSettings = findExistingSettings(parameters);
+        SettingContainer settingContainer = position
+            .getProject()
+            .getComponent(CompletionPreloader.class)
+            .getCompletions();
 
-        for (Setting candidate : candidates)
-        {
-            // Setting is below or beyond current scope.
-            if (!candidate.isApplicable(namespace))
-            {
-                continue;
-            }
+        Map<String, JSProperty> existingSettings = findExistingSettings(parameters);
+        List<Setting> settings = settingContainer.getSettings(namespace, existingSettings);
 
-            SettingLookupElement lookupElement = new SettingLookupElement(candidate, namespace);
-
-            if (existingSettings.contains(lookupElement.getLookupString()))
-            {
-                continue;
-            }
-
-            validCompletions.add(lookupElement);
-        }
-
-        return validCompletions;
+        return settings
+            .stream()
+            .map(setting -> new SettingLookupElement(setting, namespace, parameters.getOriginalFile().getText()))
+            .collect(Collectors.toCollection(ArrayList::new));
     }
 
-    static private ArrayList<String> findExistingSettings(CompletionParameters parameters)
+    static private Map<String, JSProperty> findExistingSettings(CompletionParameters parameters)
     {
-        ArrayList<String> existingSettings = new ArrayList<>();
-
         try
         {
-            JSProperty parentProperty = PsiTreeUtil.getParentOfType(parameters.getPosition(), JSProperty.class);
-            RecursivePropertyWalker walker = new RecursivePropertyWalker(parentProperty);
-
+            RecursivePropertyWalker walker = new RecursivePropertyWalker();
             walker.visitFile(parameters.getOriginalFile());
 
-            for (JSProperty existingProperty : walker.getExistingProperties())
-            {
-                existingSettings.add(existingProperty.getName());
-            }
+            return walker.getExistingProperties();
         }
-        catch (Exception ignored) {}
-
-        return existingSettings;
+        catch (Exception e)
+        {
+            return Collections.emptyMap();
+        }
     }
 }

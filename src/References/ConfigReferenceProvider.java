@@ -9,9 +9,8 @@ import com.intellij.psi.PsiReference;
 import com.intellij.psi.PsiReferenceProvider;
 import com.intellij.util.ProcessingContext;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 class ConfigReferenceProvider extends PsiReferenceProvider
 {
@@ -33,7 +32,7 @@ class ConfigReferenceProvider extends PsiReferenceProvider
                 }
 
                 String propertyName = psiElement.getText();
-                ArrayList<PsiFile> configFiles = configHandler.getConfigFiles(psiElement.getProject());
+                List<PsiFile> configFiles = configHandler.getConfigFiles(psiElement.getProject());
                 PsiElement[] configTargets = configHandler.getConfigTargets(configFiles, propertyName);
 
                 ConfigReference[] configReferences = new ConfigReference[configTargets.length];
