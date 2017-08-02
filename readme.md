@@ -11,16 +11,17 @@ Config-completions
 ------------------
     1. Open roc.config.js.
     2. Don't bother creating a newline, empty space or anything of the sort.
-    3. Move cursor to applicable node, or not. (Cursor-position will filter available completions.)
-    4. Initiate completions (usually <ctrl-space>)
-    5. Search completions by typing relevant letters.
-    6. Press <enter> when ready.
-    7. Be amazed of how great this experience was.
-    8. Profit! 
+    3. Move cursor to applicable node, or not. Cursor-position will filter available completions.
+    4. The cursor must however be somewhere within the settings-property.
+    5. Initiate completions (usually <ctrl-space>)
+    6. Search completions by typing relevant letters.
+    7. Press <enter> when ready.
+    8. Be amazed of how great this experience was.
+    9. Profit! 
 
 Documentation
 -------------   
-    1. Request quick-documentation (usually <ctrl-j)
+    1. Request quick-documentation (usually <ctrl-j>)
     2. Know what the setting does.
     3. Live a year longer as a result of lowered stress-levels.
 
@@ -49,10 +50,6 @@ If the Roc-terminal is a bit sluggish to start, it will not be properly named. O
 
 In progress
 -----------
-- Only add trailing commas if enabled in CodeStyle.
-       
-First release
-------------
 - Publish the damned thing.
 
 Next version
