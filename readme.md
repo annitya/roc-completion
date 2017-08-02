@@ -1,7 +1,7 @@
 Roc Plugin
 ==========
 This plugin Rocks! Hue, hue, hue!  
-No but seriously, it does!
+No, but seriously, it does!
 
 Installation
 ------------
@@ -9,11 +9,9 @@ Install as you would any IntelliJ-plugin.
 
 Config-completions
 ------------------
-
     1. Open roc.config.js.
     2. Don't bother creating a newline, empty space or anything of the sort.
-    3. Move cursor to applicable node, or not.
-        - Cursor-position will filter available completions.
+    3. Move cursor to applicable node, or not. (Cursor-position will filter available completions.)
     4. Initiate completions (usually <ctrl-space>)
     5. Search completions by typing relevant letters.
     6. Press <enter> when ready.
@@ -51,12 +49,10 @@ If the Roc-terminal is a bit sluggish to start, it will not be properly named. O
 
 In progress
 -----------
-- Don't attempt to fetch completions unless roc.config.js is present in project at root.
-
+- Only add trailing commas if enabled in CodeStyle.
+       
 First release
 ------------
-- Only add trailing commas if enabled in CodeStyle.
-    - What about eslint?    
 - Publish the damned thing.
 
 Next version
