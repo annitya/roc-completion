@@ -47,6 +47,7 @@ How did I know that? Uh... nevermind that...
 Known issues
 ------------
 If the Roc-terminal is a bit sluggish to start, it will not be properly named. Oh the horror!
+The webpack-settings is reported as "just another container".
 
 In progress
 -----------
