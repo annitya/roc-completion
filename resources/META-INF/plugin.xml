@@ -18,6 +18,7 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <completion.contributor language="JavaScript" implementationClass="Completions.RocSettingsProvider" order="first" />
+        <documentationProvider implementation="Completions.RocDocumentationProvider" />
     </extensions>
 
     <actions>

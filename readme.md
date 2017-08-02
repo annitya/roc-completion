@@ -20,6 +20,12 @@ Config-completions
     7. Be amazed of how great this experience was.
     8. Profit! 
 
+Documentation
+-------------   
+    1. Request quick-documentation (usually <ctrl-j)
+    2. Know what the setting does.
+    3. Live a year longer as a result of lowered stress-levels.
+
 Toolbar
 -------
     1. The toolbar now has a cute little Roc-icon.
@@ -41,16 +47,16 @@ How did I know that? Uh... nevermind that...
 
 Known issues
 ------------
-If the Roc-terminal is a bit sluggish to start, it will not be properly named.
+If the Roc-terminal is a bit sluggish to start, it will not be properly named. Oh the horror!
 
 In progress
 -----------
-- Determine how to provide user with information about setting.
-    - Provide said information.
+- Don't attempt to fetch completions unless roc.config.js is present in project at root.
 
 First release
 ------------
 - Only add trailing commas if enabled in CodeStyle.
+    - What about eslint?    
 - Publish the damned thing.
 
 Next version
@@ -62,6 +68,8 @@ Next version
     - That should be easy... not!
 - Add default-values by type as placeholders when there is no default-value.
 - Divine the rather exotic types.
+- If the Roc-terminal is a bit sluggish to start, it will not be properly named. Oh the horror!
+    - Wait for the tab.
         
 Future versions
 ---------------

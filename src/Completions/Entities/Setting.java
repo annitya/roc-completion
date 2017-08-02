@@ -22,6 +22,8 @@ public class Setting
     private Object defaultValue;
     private List<String> extensions;
 
+    public String getDescription() { return description; }
+
     String getPath() { return path; }
 
     public String getNamespace()

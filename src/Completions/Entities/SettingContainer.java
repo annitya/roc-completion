@@ -27,6 +27,11 @@ public class SettingContainer
         settings.forEach(treeNode -> populateFlatList(treeNode.getChildren()));
     }
 
+    public Setting getSetting(String qualifiedName)
+    {
+        return flatList.get(qualifiedName);
+    }
+
     public List<Setting> getSettings(String namespace, Map<String, JSProperty> existingSettings)
     {
         return flatList
