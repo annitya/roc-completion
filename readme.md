@@ -43,18 +43,25 @@ Known issues
 ------------
 If the Roc-terminal is a bit sluggish to start, it will not be properly named.
 
-First release
-------------
+In progress
+-----------
 - Determine how to provide user with information about setting.
     - Provide said information.
+
+First release
+------------
+- Only add trailing commas if enabled in CodeStyle.
 - Publish the damned thing.
-- Add default-values by type as placeholders when there is no default-value.
-- Move cursor to relevant places when applicable.
-    - That should be easy... not!
+
+Next version
+------------
+- Honor preferred quotes.
 - Auto-open dialogue for sub-completion-types.
     - Make sure they are wrapped in quotes.
-- Honor preferred quotes.
-- Only add trailing commas if enabled in CodeStyle.
+- Move cursor to relevant places when applicable.
+    - That should be easy... not!
+- Add default-values by type as placeholders when there is no default-value.
+- Divine the rather exotic types.
         
 Future versions
 ---------------
