@@ -1,7 +1,7 @@
 package Framework;
 
-import Completions.SettingContainer;
-import Completions.SettingTreeNode;
+import Completions.Entities.SettingContainer;
+import Completions.Entities.SettingTreeNode;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -14,7 +14,6 @@ import com.intellij.openapi.progress.ProgressIndicator;
 import com.intellij.openapi.progress.Task.Backgroundable;
 import com.intellij.openapi.project.Project;
 import icons.RocIcons;
-import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import java.io.BufferedReader;
@@ -25,9 +24,10 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class FetchCompletions extends Backgroundable implements PerformInBackgroundOption
+class FetchCompletions extends Backgroundable implements PerformInBackgroundOption
 {
-    FetchCompletions(@Nullable Project project, @Nls @NotNull String title) { super(project, title); }
+    FetchCompletions(@Nullable Project project) { //noinspection DialogTitleCapitalization
+        super(project, "Fetching Roc-completions..."); }
 
     @Override
     public void run(@NotNull ProgressIndicator progressIndicator)
@@ -41,12 +41,11 @@ public class FetchCompletions extends Backgroundable implements PerformInBackgro
                 throw new Exception("Unable to initialize command-line.");
             }
 
-            String result;
             Process process = commandLine.createProcess();
             InputStreamReader resultStreamReader = new InputStreamReader(process.getInputStream());
             BufferedReader bufferedResultReader = new BufferedReader(resultStreamReader);
 
-            result = bufferedResultReader
+            String result = bufferedResultReader
                 .lines()
                 .collect(Collectors.joining());
 

@@ -28,6 +28,7 @@ public class RocSettingsProvider extends CompletionContributor
         }
         else
         {
+            // Don't display all the other junk.
             result.stopHere();
         }
 

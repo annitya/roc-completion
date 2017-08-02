@@ -1,4 +1,4 @@
-package Completions;
+package Completions.Entities;
 
 import com.google.common.collect.Lists;
 import com.intellij.codeInsight.lookup.LookupElement;
@@ -9,7 +9,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-class Setting
+@SuppressWarnings("unused")
+public class Setting
 {
     private String name;
     private String description;
@@ -23,18 +24,18 @@ class Setting
 
     String getPath() { return path; }
 
-    String getNamespace()
+    public String getNamespace()
     {
         return SettingContainer.ROOT_NAMESPACE + "." + path;
     }
 
-    String getDefaultValue() { return defaultValue != null ? defaultValue.toString() : ""; }
+    public String getDefaultValue() { return defaultValue != null ? defaultValue.toString() : ""; }
 
     String getName() { return name; }
 
-    String getType() { return type; }
+    public String getType() { return type; }
 
-    List<LookupElement> getSubCompletionVariants()
+    private List<LookupElement> getSubCompletionVariants()
     {
         String defaultValueString = type;
 
@@ -113,27 +114,28 @@ class Setting
         return remainder;
     }
 
-    String toRelativeJsNotation(JSProperty property)
+    public String toRelativeJsNotation(JSProperty property)
     {
         String remainder = getNamespace().replaceFirst(property.getQualifiedName() + ".", "");
+        // This is the js-properties we need to create.
         List<String> remainderParts = Lists.newArrayList(remainder.split("\\."));
 
         String jsObject = "%s";
-
+        // Create all needed object-levels.
         for  (int i = 0; i < remainderParts.size() - 1; i++)
         {
             String remainderPart = getFormattedRemainderPart(remainderParts, i);
-
             String jsPart = remainderPart + ": { %s }";
-
             jsObject = String.format(jsObject, jsPart);
         }
 
         String valueName = getFormattedRemainderPart(remainderParts, remainderParts.size() - 1);
+        // Insert an "intelligent" default-value.
         String valuePart = String.format("%s: %s,", valueName, getTargetValue());
 
         jsObject = String.format(jsObject, valuePart);
 
+        // If we needed to create additional levels, odds are we need a comma.
         if (remainderParts.size() > 1)
         {
             jsObject += ",";

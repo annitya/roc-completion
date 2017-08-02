@@ -18,8 +18,6 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <completion.contributor language="JavaScript" implementationClass="Completions.RocSettingsProvider" order="first" />
-        <gotoDeclarationHandler implementation="Goto.ConfigHandler" order="first" />
-        <psi.referenceContributor implementation="References.ConfigContributor" />
     </extensions>
 
     <actions>

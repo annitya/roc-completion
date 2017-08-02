@@ -1,6 +1,5 @@
 package Actions;
 
-import Terminal.Roc;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.project.Project;
 import org.jetbrains.plugins.terminal.TerminalView;
@@ -17,7 +16,7 @@ public class Dev extends com.intellij.openapi.actionSystem.AnAction {
         }
 
         TerminalView terminalView = TerminalView.getInstance(project);
-        Roc rocTerminal = new Roc(project);
-        terminalView.createNewSession(project, rocTerminal);
+        RocTerminal terminal = new RocTerminal(project);
+        terminalView.createNewSession(project, terminal);
     }
 }

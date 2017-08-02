@@ -1,6 +1,6 @@
 package Framework;
 
-import Completions.SettingContainer;
+import Completions.Entities.SettingContainer;
 import com.intellij.openapi.components.ProjectComponent;
 import com.intellij.openapi.progress.ProgressManager;
 import com.intellij.openapi.project.Project;
@@ -24,7 +24,7 @@ public class CompletionPreloader implements ProjectComponent
     @Override
     public void projectOpened()
     {
-        FetchCompletions task = new FetchCompletions(project, "Fetching roc-completions...");
+        FetchCompletions task = new FetchCompletions(project);
         ProgressManager.getInstance().run(task);
     }
 

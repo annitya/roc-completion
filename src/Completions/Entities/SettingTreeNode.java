@@ -1,7 +1,8 @@
-package Completions;
+package Completions.Entities;
 
 import java.util.List;
 
+@SuppressWarnings("unused")
 public class SettingTreeNode
 {
     private String name;
@@ -12,5 +13,5 @@ public class SettingTreeNode
 
     List<Setting> getObjects() { return objects; }
 
-    public List<SettingTreeNode> getChildren() { return children; }
+    List<SettingTreeNode> getChildren() { return children; }
 }

@@ -1,24 +1,20 @@
-package Completions;
+package Completions.Entities;
 
 import com.intellij.lang.javascript.psi.JSProperty;
-
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class SettingContainer
 {
-    static final String ROOT_NAMESPACE = "module.exports.settings";
+    public static final String ROOT_NAMESPACE = "module.exports.settings";
 
-    private List<SettingTreeNode> settings;
     private NavigableMap<String, Setting> flatList;
 
     public SettingContainer() {}
 
     public SettingContainer(List<SettingTreeNode> settings)
     {
-        this.settings = settings;
         flatList = new TreeMap<>();
-
         populateFlatList(settings);
     }
 
@@ -31,7 +27,7 @@ public class SettingContainer
         settings.forEach(treeNode -> populateFlatList(treeNode.getChildren()));
     }
 
-    List<Setting> getSettings(String namespace, Map<String, JSProperty> existingSettings)
+    public List<Setting> getSettings(String namespace, Map<String, JSProperty> existingSettings)
     {
         return flatList
             .subMap(namespace, namespace + Character.MAX_VALUE)

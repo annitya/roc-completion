@@ -1,4 +1,4 @@
-package Terminal;
+package Actions;
 
 import com.intellij.openapi.project.Project;
 import com.jediterm.terminal.ui.JediTermWidget;
@@ -13,8 +13,8 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.stream.Stream;
 
-public class Roc extends LocalTerminalDirectRunner {
-    public Roc(Project project) { super(project); }
+class RocTerminal extends LocalTerminalDirectRunner {
+    RocTerminal(Project project) { super(project); }
 
     @Override
     public void openSessionInDirectory(@NotNull TerminalWidget terminalWidget, @Nullable String directory)

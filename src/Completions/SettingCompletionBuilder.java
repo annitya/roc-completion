@@ -1,5 +1,7 @@
 package Completions;
 
+import Completions.Entities.Setting;
+import Completions.Entities.SettingContainer;
 import Framework.CompletionPreloader;
 import com.intellij.codeInsight.completion.CompletionParameters;
 import com.intellij.lang.javascript.psi.JSProperty;
@@ -30,10 +32,7 @@ class SettingCompletionBuilder
             return Collections.emptyList();
         }
 
-        SettingContainer settingContainer = position
-            .getProject()
-            .getComponent(CompletionPreloader.class)
-            .getCompletions();
+        SettingContainer settingContainer = CompletionPreloader.getCompletions();
 
         Map<String, JSProperty> existingSettings = findExistingSettings(parameters);
         List<Setting> settings = settingContainer.getSettings(namespace, existingSettings);

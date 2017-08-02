@@ -30,22 +30,31 @@ Toolbar
 Gotchas
 -------
 If a newly installed package provides additional settings, you will need to reopen the project.  
-Let me know if this ruins your day, and I'll fix it.
+Let me know if this ruins your day, and I'll fix it.  
 
-Next version
+If you for some reason miss your regular completions, feel free to initiate completions a second time  
+while the dialogue is still visible. 
+
+If you attempt to start Roc via the toolbar and the terminal-tab just flickers, doublecheck that you actually  
+have Roc installed globally. Dumbass!  
+How did I know that? Uh... nevermind that...
+
+Known issues
 ------------
+If the Roc-terminal is a bit sluggish to start, it will not be properly named.
 
-- Remove all the "reference-junk" to a different branch.
+First release
+------------
 - Determine how to provide user with information about setting.
     - Provide said information.
-- Add code-comments. They are needed!
 - Publish the damned thing.
 - Add default-values by type as placeholders when there is no default-value.
 - Move cursor to relevant places when applicable.
     - That should be easy... not!
 - Auto-open dialogue for sub-completion-types.
     - Make sure they are wrapped in quotes.
-- Honor preferred quotes and usage of trailing commas.
+- Honor preferred quotes.
+- Only add trailing commas if enabled in CodeStyle.
         
 Future versions
 ---------------
