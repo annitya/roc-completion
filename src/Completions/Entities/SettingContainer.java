@@ -10,11 +10,14 @@ public class SettingContainer
 
     private NavigableMap<String, Setting> flatList;
 
-    public SettingContainer() {}
+    public SettingContainer()
+    {
+        flatList = new TreeMap<>();
+    }
 
     public SettingContainer(List<SettingTreeNode> settings)
     {
-        flatList = new TreeMap<>();
+        this();
         populateFlatList(settings);
     }
 
