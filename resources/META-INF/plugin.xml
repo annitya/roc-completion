@@ -11,6 +11,7 @@
             <h2>1.0.1</h2>
                 <ul>
                     <li>Postpone fetching of completions until indexes are ready.</li>
+                    <li>Prevent NPE when no completions are available.</li>
                 </ul>
             <h2>1.0.0</h2>
             <ul>
