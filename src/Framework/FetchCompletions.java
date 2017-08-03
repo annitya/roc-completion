@@ -13,11 +13,11 @@ import com.intellij.openapi.progress.PerformInBackgroundOption;
 import com.intellij.openapi.progress.ProgressIndicator;
 import com.intellij.openapi.progress.Task.Backgroundable;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.vfs.VirtualFile;
 import icons.RocIcons;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.lang.reflect.Type;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -34,25 +34,25 @@ class FetchCompletions extends Backgroundable implements PerformInBackgroundOpti
     {
         try
         {
+            // Prepare and run node-command which will fetch settings.
             GeneralCommandLine commandLine = createCommandLine();
-
-            if (commandLine == null)
-            {
-                throw new Exception("Unable to initialize command-line.");
-            }
-
             Process process = commandLine.createProcess();
-            InputStreamReader resultStreamReader = new InputStreamReader(process.getInputStream());
-            BufferedReader bufferedResultReader = new BufferedReader(resultStreamReader);
 
-            String result = bufferedResultReader
-                .lines()
-                .collect(Collectors.joining());
-
+            String input = readInputStream(process.getInputStream());
             Gson gson = new GsonBuilder().create();
 
             Type targetType = new TypeToken<List<SettingTreeNode>>() {}.getType();
-            SettingContainer completions = new SettingContainer(gson.fromJson(result, targetType));
+            List<SettingTreeNode> settings = gson.fromJson(input, targetType);
+
+            if (settings == null)
+            {
+                String error = readInputStream(process.getErrorStream());
+                String message = error.length() > 0 ? error : input;
+
+                throw new Exception("Error occured while fetching completions: " + message);
+            }
+
+            SettingContainer completions = new SettingContainer(settings);
             CompletionPreloader.setCompletions(completions);
         }
         catch (Exception e)
@@ -63,7 +63,7 @@ class FetchCompletions extends Backgroundable implements PerformInBackgroundOpti
         }
     }
 
-    private GeneralCommandLine createCommandLine()
+    private GeneralCommandLine createCommandLine() throws Exception
     {
         GeneralCommandLine commandLine = new GeneralCommandLine();
         commandLine
@@ -77,7 +77,26 @@ class FetchCompletions extends Backgroundable implements PerformInBackgroundOpti
 
         if (interpreter == null)
         {
-            return null;
+            throw new Exception("Unable to create node-interpreter.");
+        }
+        // Move getSettings.js resource to .idea-folder within current project.
+        ensureJsFile();
+
+        commandLine.setExePath(interpreter.getInterpreterSystemDependentPath());
+        commandLine.addParameter(getJsFilePath());
+        commandLine.addParameter("roc-config");
+
+        return commandLine;
+    }
+
+    private void ensureJsFile() throws Exception
+    {
+        String jsFilePath = getJsFilePath();
+        File jsFile = new File(jsFilePath);
+
+        if (jsFile.isFile())
+        {
+            return;
         }
 
         URL getSettingsResource = this
@@ -87,13 +106,44 @@ class FetchCompletions extends Backgroundable implements PerformInBackgroundOpti
 
         if (getSettingsResource == null)
         {
-            return null;
+            throw new Exception("Unable to locate getSettings.js in resources!");
         }
 
-        commandLine.setExePath(interpreter.getInterpreterSystemDependentPath());
-        commandLine.addParameter(getSettingsResource.getFile());
-        commandLine.addParameter("roc-config");
+        String content = readInputStream(getSettingsResource.openStream());
 
-        return commandLine;
+        if (content.length() == 0)
+        {
+            throw new Exception("Unable to read getSettings.js from plugin!");
+        }
+
+        PrintWriter out = new PrintWriter(jsFile);
+        out.println(content);
+        out.close();
+    }
+
+    private String getJsFilePath() throws Exception
+    {
+        VirtualFile projectFile = myProject.getProjectFile();
+
+        if (projectFile == null)
+        {
+            throw new Exception("Project file is missing!");
+        }
+
+        String projectFileDirectory = projectFile
+            .getParent()
+            .getPath();
+
+        return projectFileDirectory + "/" + "getSettings.js";
+    }
+
+    private String readInputStream(InputStream stream)
+    {
+        InputStreamReader reader = new InputStreamReader(stream);
+        BufferedReader bufferedReader = new BufferedReader(reader);
+
+        return bufferedReader
+            .lines()
+            .collect(Collectors.joining());
     }
 }
