@@ -60,7 +60,6 @@ In progress
 
 Next version
 ------------
-- Honor preferred quotes.
 - Auto-open dialogue for sub-completion-types.
     - Make sure they are wrapped in quotes.
 - Move cursor to relevant places when applicable.
@@ -69,6 +68,7 @@ Next version
 - Divine the rather exotic types.
 - If the Roc-terminal is a bit sluggish to start, it will not be properly named. Oh the horror!
     - Wait for the tab.
+        - Yeah this is pretty much impossible. Incredible...
         
 Future versions
 ---------------
