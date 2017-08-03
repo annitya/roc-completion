@@ -1,20 +1,26 @@
 <idea-plugin>
     <id>com.flageolett.roc</id>
     <name>Roc JS</name>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
     <vendor email="henning.kvinnesland@gmail.com" url="https://github.com/whitefire/roc-completion">Flageolett</vendor>
 
     <description><![CDATA[Makes development with Roc even more pleasant.]]></description>
 
     <change-notes>
         <![CDATA[
+            <h2>1.0.2</h2>
+            <ul>
+                <li>Preferred quotes is now honored.</li>
+            </ul>
+
             <h2>1.0.1</h2>
-                <ul>
-                    <li>Switch to more robust method for fetching completions.</li>
-                    <li>Improve clarity of error-messages.</li>
-                    <li>Postpone fetching of completions until indexes are ready.</li>
-                    <li>Prevent NPE when no completions are available.</li>
-                </ul>
+            <ul>
+                <li>Switch to more robust method for fetching completions.</li>
+                <li>Improve clarity of error-messages.</li>
+                <li>Postpone fetching of completions until indexes are ready.</li>
+                <li>Prevent NPE when no completions are available.</li>
+            </ul>
+
             <h2>1.0.0</h2>
             <ul>
                 <li>Change must come from within!</li>
