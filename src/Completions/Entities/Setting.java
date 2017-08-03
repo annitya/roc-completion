@@ -63,7 +63,7 @@ public class Setting
         return subCompletions;
     }
 
-    private String getTargetValue()
+    private String getTargetValue(String quote)
     {
         String defaultValueString = getDefaultValue();
 
@@ -83,7 +83,7 @@ public class Setting
             case "Enumeration":
             case "Filepath":
             case "String":
-                return String.format("'%s'", defaultValueString);
+                return String.format("%s%s%s", quote, defaultValueString, quote);
             case "Integer":
             case "Array(String)":
             case "Unknown":
@@ -104,19 +104,19 @@ public class Setting
         }
     }
 
-    private String getFormattedRemainderPart(List<String> list, Integer index)
+    private String getFormattedRemainderPart(List<String> list, Integer index, String quote)
     {
         String remainder = list.get(index);
 
         if (remainder.contains("-"))
         {
-            remainder = String.format("'%s'", remainder);
+            remainder = String.format("%s%s%s", quote, remainder, quote);
         }
 
         return remainder;
     }
 
-    public String toRelativeJsNotation(JSProperty property)
+    public String toRelativeJsNotation(JSProperty property, String quote)
     {
         String remainder = getNamespace().replaceFirst(property.getQualifiedName() + ".", "");
         // This is the js-properties we need to create.
@@ -126,14 +126,14 @@ public class Setting
         // Create all needed object-levels.
         for  (int i = 0; i < remainderParts.size() - 1; i++)
         {
-            String remainderPart = getFormattedRemainderPart(remainderParts, i);
+            String remainderPart = getFormattedRemainderPart(remainderParts, i, quote);
             String jsPart = remainderPart + ": { %s }";
             jsObject = String.format(jsObject, jsPart);
         }
 
-        String valueName = getFormattedRemainderPart(remainderParts, remainderParts.size() - 1);
+        String valueName = getFormattedRemainderPart(remainderParts, remainderParts.size() - 1, quote);
         // Insert an "intelligent" default-value.
-        String valuePart = String.format("%s: %s,", valueName, getTargetValue());
+        String valuePart = String.format("%s: %s,", valueName, getTargetValue(quote));
 
         jsObject = String.format(jsObject, valuePart);
 

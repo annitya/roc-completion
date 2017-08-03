@@ -5,6 +5,7 @@ import com.google.common.collect.Lists;
 import com.intellij.codeInsight.completion.InsertionContext;
 import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.codeInsight.lookup.LookupElementPresentation;
+import com.intellij.lang.javascript.formatter.JSCodeStyleSettings;
 import com.intellij.lang.javascript.psi.JSExpression;
 import com.intellij.lang.javascript.psi.JSProperty;
 import com.intellij.psi.PsiElement;
@@ -13,7 +14,6 @@ import com.intellij.psi.PsiFileFactory;
 import com.intellij.psi.codeStyle.CodeStyleManager;
 import org.apache.commons.lang.ArrayUtils;
 import org.jetbrains.annotations.NotNull;
-
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -94,7 +94,8 @@ class SettingLookupElement extends LookupElement
         // Grab the deepest property available for insertion...
         JSProperty targetProperty = getTargetProperty(context.getFile());
         // Generate the remaining jsNotation.
-        String jsNotation = setting.toRelativeJsNotation(targetProperty);
+        String quote = JSCodeStyleSettings.getQuote(targetProperty);
+        String jsNotation = setting.toRelativeJsNotation(targetProperty, quote);
 
         // Create a new file to initiate all lexers, parsers grumpkins and snarks...
         PsiFile psiContainer = PsiFileFactory
