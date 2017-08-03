@@ -44,6 +44,11 @@ If you attempt to start Roc via the toolbar and the terminal-tab just flickers, 
 have Roc installed globally. Dumbass!  
 How did I know that? Uh... nevermind that...
 
+Troubleshooting
+---------------
+    Try running the command: "node .idea/getSettings.js roc-config" from your project root-directory.
+    Output should be pure parsable json.
+
 Known issues
 ------------
 If the Roc-terminal is a bit sluggish to start, it will not be properly named. Oh the horror!
