@@ -10,6 +10,8 @@
         <![CDATA[
             <h2>1.0.1</h2>
                 <ul>
+                    <li>Switch to more robust method for fetching completions.</li>
+                    <li>Improve clarity of error-messages.</li>
                     <li>Postpone fetching of completions until indexes are ready.</li>
                     <li>Prevent NPE when no completions are available.</li>
                 </ul>
