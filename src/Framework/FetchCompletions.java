@@ -54,8 +54,6 @@ class FetchCompletions extends Backgroundable implements PerformInBackgroundOpti
             Type targetType = new TypeToken<List<SettingTreeNode>>() {}.getType();
             SettingContainer completions = new SettingContainer(gson.fromJson(result, targetType));
             CompletionPreloader.setCompletions(completions);
-
-            progressIndicator.stop();
         }
         catch (Exception e)
         {
