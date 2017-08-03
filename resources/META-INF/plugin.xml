@@ -1,13 +1,22 @@
 <idea-plugin>
     <id>com.flageolett.roc</id>
     <name>Roc JS</name>
-    <version>1.0</version>
+    <version>1.0.1</version>
     <vendor email="henning.kvinnesland@gmail.com" url="https://github.com/whitefire/roc-completion">Flageolett</vendor>
 
     <description><![CDATA[Makes development with Roc even more pleasant.]]></description>
 
     <change-notes>
-        <![CDATA[Change must come from within!]]>
+        <![CDATA[
+            <h2>1.0.1</h2>
+                <ul>
+                    <li>Postpone fetching of completions until indexes are ready.</li>
+                </ul>
+            <h2>1.0.0</h2>
+            <ul>
+                <li>Change must come from within!</li>
+            </ul>
+        ]]>
     </change-notes>
 
     <idea-version since-build="145.0"/>
