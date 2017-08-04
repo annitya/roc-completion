@@ -27,8 +27,19 @@ public class RocDocumentationProvider implements DocumentationProvider, External
             return urls;
         }
 
-        try {
+        try
+        {
             JSProperty property = (JSProperty)psiElement;
+
+            String namespace = property
+                .getJSNamespace()
+                .toString();
+
+            if (!namespace.startsWith(SettingContainer.ROOT_NAMESPACE))
+            {
+                return urls;
+            }
+
             urls.add(property.getQualifiedName());
         }
         catch (Exception ignored) {}
