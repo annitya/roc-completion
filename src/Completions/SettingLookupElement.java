@@ -9,14 +9,15 @@ import com.intellij.lang.javascript.formatter.JSCodeStyleSettings;
 import com.intellij.lang.javascript.psi.JSExpression;
 import com.intellij.lang.javascript.psi.JSLiteralExpression;
 import com.intellij.lang.javascript.psi.JSProperty;
+import com.intellij.openapi.editor.Editor;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiFileFactory;
 import com.intellij.psi.codeStyle.CodeStyleManager;
 import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang.math.NumberUtils;
 import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 class SettingLookupElement extends LookupElement
@@ -126,13 +127,18 @@ class SettingLookupElement extends LookupElement
             .reformat(value);
 
         value.replace(formattedValue);
-
-        List<LookupElement> subCompletions = setting.getSubCompletionVariants();
-
-        if (subCompletions.size() == 0)
+        // User does not need to edit bools.
+        if (setting.getType().equals("Boolean"))
         {
             return;
         }
+
+        context.commitDocument();
+        moveCursor(context);
+    }
+
+    private void moveCursor(InsertionContext context)
+    {
         // Target will now resolve to newly inserted element.
         JSProperty insertedValue = getTargetProperty(context.getFile());
 
@@ -148,15 +154,45 @@ class SettingLookupElement extends LookupElement
             return;
         }
 
+        JSLiteralExpression expression;
+        Object expressionValue;
+
         try
         {
-            JSLiteralExpression expression = (JSLiteralExpression)children[0];
-
+            expression = (JSLiteralExpression)children[0];
+            expressionValue = expression.getValue();
+        }
+        catch (Exception e)
+        {
+            // Default-value is missing for numeric.
             context
                 .getEditor()
                 .getCaretModel()
-                .moveToOffset(expression.getTextOffset() + 1);
+                .moveToOffset(children[0].getTextOffset() + 1);
+
+            return;
         }
-        catch (Exception ignored) {}
+
+        if (expressionValue == null)
+        {
+            return;
+        }
+
+        String value = expressionValue.toString();
+        // Don't need quote-offset for numerics.
+        Integer quoteOffset = NumberUtils.isNumber(value) ? 0 : 1;
+
+        Integer startOffset = expression.getTextOffset() + quoteOffset;
+        Editor editor = context.getEditor();
+
+        editor
+            .getCaretModel()
+            .moveToOffset(startOffset);
+
+        Integer endOffset = startOffset + value.length();
+
+        editor
+            .getSelectionModel()
+            .setSelection(startOffset, endOffset);
     }
 }
