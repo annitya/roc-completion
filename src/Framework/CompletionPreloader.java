@@ -12,7 +12,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class CompletionPreloader implements ProjectComponent
 {
-    public static final String ROC_CONFIG_FILE = "roc.config.js";
+    private static final String ROC_CONFIG_FILE = "roc.config.js";
     private final Project project;
     private static SettingContainer completions;
 
@@ -20,6 +20,13 @@ public class CompletionPreloader implements ProjectComponent
     {
         this.project = project;
         completions = new SettingContainer();
+    }
+
+    public static Boolean isRocConfigFile(PsiFile file)
+    {
+        return file
+            .getName()
+            .equals(ROC_CONFIG_FILE);
     }
 
     public static SettingContainer getCompletions() { return completions; }

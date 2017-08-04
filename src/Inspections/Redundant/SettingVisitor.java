@@ -68,12 +68,7 @@ public class SettingVisitor extends JSRecursiveWalkingElementVisitor
             return;
         }
 
-        Boolean isCorrectFile = node
-            .getContainingFile()
-            .getName()
-            .equals(CompletionPreloader.ROC_CONFIG_FILE);
-
-        if (!isCorrectFile)
+        if (!CompletionPreloader.isRocConfigFile(node.getContainingFile()))
         {
             this.stopWalking();
             return;

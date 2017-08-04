@@ -37,26 +37,31 @@ public class Setting
 
     public String getType() { return type; }
 
-    private List<LookupElement> getSubCompletionVariants()
+    public List<LookupElement> getSubCompletionVariants()
     {
-        String defaultValueString = type;
+        String enumerationValueString = type;
 
-        Boolean hasCorrectEnding = defaultValueString.endsWith("$/") || defaultValueString.endsWith("/i");
+        Boolean hasCorrectEnding = enumerationValueString.endsWith("$/") || enumerationValueString.endsWith("/i");
 
-        if (!defaultValueString.startsWith("/^") || !hasCorrectEnding)
+        if (!enumerationValueString.startsWith("/^") || !hasCorrectEnding)
         {
             return Collections.emptyList();
         }
 
-        defaultValueString = defaultValueString
+        enumerationValueString = enumerationValueString
             .replace("/^", "")
             .replace("$/", "")
             .replace("/i", "");
 
         List<LookupElement> subCompletions = new ArrayList<>();
 
-        for (String subCompletion : defaultValueString.split("\\|"))
+        for (String subCompletion : enumerationValueString.split("\\|"))
         {
+            if (subCompletion.equals(getDefaultValue()))
+            {
+                continue;
+            }
+
             subCompletions.add(LookupElementBuilder.create(subCompletion));
         }
 
@@ -81,6 +86,7 @@ public class Setting
 //        "type": "Boolean / Function",
 //        "type": "Boolean / Integer",
             case "Enumeration":
+                return quote + quote;
             case "Filepath":
             case "String":
                 return String.format("%s%s%s", quote, defaultValueString, quote);

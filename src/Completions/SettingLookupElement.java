@@ -2,11 +2,12 @@ package Completions;
 
 import Completions.Entities.Setting;
 import com.google.common.collect.Lists;
-import com.intellij.codeInsight.completion.InsertionContext;
+import com.intellij.codeInsight.completion.*;
 import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.codeInsight.lookup.LookupElementPresentation;
 import com.intellij.lang.javascript.formatter.JSCodeStyleSettings;
 import com.intellij.lang.javascript.psi.JSExpression;
+import com.intellij.lang.javascript.psi.JSLiteralExpression;
 import com.intellij.lang.javascript.psi.JSProperty;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
@@ -15,6 +16,7 @@ import com.intellij.psi.codeStyle.CodeStyleManager;
 import org.apache.commons.lang.ArrayUtils;
 import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 class SettingLookupElement extends LookupElement
@@ -124,5 +126,37 @@ class SettingLookupElement extends LookupElement
             .reformat(value);
 
         value.replace(formattedValue);
+
+        List<LookupElement> subCompletions = setting.getSubCompletionVariants();
+
+        if (subCompletions.size() == 0)
+        {
+            return;
+        }
+        // Target will now resolve to newly inserted element.
+        JSProperty insertedValue = getTargetProperty(context.getFile());
+
+        if (insertedValue == null)
+        {
+            return;
+        }
+
+        PsiElement[] children = insertedValue.getChildren();
+
+        if (children.length != 1)
+        {
+            return;
+        }
+
+        try
+        {
+            JSLiteralExpression expression = (JSLiteralExpression)children[0];
+
+            context
+                .getEditor()
+                .getCaretModel()
+                .moveToOffset(expression.getTextOffset() + 1);
+        }
+        catch (Exception ignored) {}
     }
 }

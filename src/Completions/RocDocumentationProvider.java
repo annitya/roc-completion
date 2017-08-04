@@ -22,7 +22,7 @@ public class RocDocumentationProvider implements DocumentationProvider, External
     {
         List<String> urls = new ArrayList<>();
 
-        if (!psiElement.getContainingFile().getName().equals(CompletionPreloader.ROC_CONFIG_FILE))
+        if (!CompletionPreloader.isRocConfigFile(psiElement.getContainingFile()))
         {
             return urls;
         }
