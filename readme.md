@@ -5,7 +5,11 @@ No, but seriously, it does!
 
 Installation
 ------------
-Install as you would any IntelliJ-plugin.
+Install as you would any JetBrains-plugin.
+
+Supported products
+------------------
+IntelliJ IDEA, PhpStorm, WebStorm, PyCharm, RubyMine, AppCode, CLion, Gogland and Rider.
 
 Config-completions
 ------------------
@@ -58,14 +62,13 @@ Troubleshooting
 Known issues
 ------------
 If the Roc-terminal is a bit sluggish to start, it will not be properly named. Oh the horror!
+Did autocomplete mess up your config? Make sure there is no syntax-errors before you attempt autocomplete.
+If not, the completion will hit all the branches of your ugly config-tree, and come out wrong.
 
 In progress
 -----------
 - Publish the damned thing.
-    - Waiting for JetBrains.
-
-- Always move cursor after insertion unless bool.
-    - Pre-select any default-value if there is one.
+    - Waiting on JetBrains.
                       
 Next version
 ------------
@@ -84,8 +87,15 @@ Future versions
 - Provide references/goto from import { something } from 'config';
     - Probably only need to reference base-elements.
         - And should not override existing references as this will break the spacetime-continuum.
+            - Return both references perhaps?
 - Notifications about new roc-versions with changelog.
 - Toggle auto-refresh of browser-tab after dev-build.
+    - Should be doable.
+    - Is there a Chrome-cli utility available in Java?
+    - How do I make a checkbox within the toolbar?
+    - Persist between restarts?
+        - Maybe add as a setting?
+                    
 - completions and goto for:       
     - getSettings()
     - Routes defined in configured middleware?
