@@ -58,17 +58,17 @@ Troubleshooting
 Known issues
 ------------
 If the Roc-terminal is a bit sluggish to start, it will not be properly named. Oh the horror!
-The webpack-settings is reported as "just another container".
 
 In progress
 -----------
 - Publish the damned thing.
     - Waiting for JetBrains.
-    
+
+- Always move cursor after insertion unless bool.
+    - Pre-select any default-value if there is one.
+                      
 Next version
 ------------
-- Move cursor to relevant places when applicable.
-    - That should be easy... not!
 - Add default-values by type as placeholders when there is no default-value.
 - Divine the rather exotic types.
 - If the Roc-terminal is a bit sluggish to start, it will not be properly named. Oh the horror!
