@@ -19,6 +19,12 @@ Config-completions
     8. Be amazed of how great this experience was.
     9. Profit! 
 
+Config-sub-completions
+----------------------
+    1. Did you perhaps select an enumeration?
+    2. Request autocomplete again (<ctrl-space>) to see available values.
+    3. Don't worry if the list seems a bit short. Default-values has been removed.
+
 Documentation
 -------------   
     1. Request quick-documentation (usually <ctrl-j>)
@@ -58,8 +64,6 @@ In progress
 -----------
 - Publish the damned thing.
     - Waiting for JetBrains.
-- Auto-open dialogue for sub-completion-types.
-    - Make sure they are wrapped in correct quotes.
     
 Next version
 ------------
@@ -73,6 +77,8 @@ Next version
         
 Future versions
 ---------------
+- Auto-open dialogue for sub-completion-types.
+    - Invoking completions can only be done in dispatch/read-context.
 - Move to postStartupActivity for fetching completions?
 - inspections: wrong type for setting.
 - Provide references/goto from import { something } from 'config';
