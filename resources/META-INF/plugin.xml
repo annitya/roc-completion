@@ -10,6 +10,7 @@
         <![CDATA[
             <h2>1.0.2</h2>
             <ul>
+                <li>Webpack-node is no longer reported to be a container.</li>
                 <li>Add sub-completions.</li>
                 <li>Added inspection for redundant settings.</li>
                 <li>Preferred quotes is now honored.</li>
