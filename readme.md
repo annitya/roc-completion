@@ -57,11 +57,12 @@ The webpack-settings is reported as "just another container".
 In progress
 -----------
 - Publish the damned thing.
-
+    - Waiting for JetBrains.
+- Auto-open dialogue for sub-completion-types.
+    - Make sure they are wrapped in correct quotes.
+    
 Next version
 ------------
-- Auto-open dialogue for sub-completion-types.
-    - Make sure they are wrapped in quotes.
 - Move cursor to relevant places when applicable.
     - That should be easy... not!
 - Add default-values by type as placeholders when there is no default-value.
@@ -72,7 +73,8 @@ Next version
         
 Future versions
 ---------------
-- inspections: redundant setting, wrong type.
+- Move to postStartupActivity for fetching completions?
+- inspections: wrong type for setting.
 - Provide references/goto from import { something } from 'config';
     - Probably only need to reference base-elements.
         - And should not override existing references as this will break the spacetime-continuum.
