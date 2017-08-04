@@ -1,6 +1,8 @@
 package Completions.Entities;
 
 import com.google.common.collect.Lists;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.codeInsight.lookup.LookupElementBuilder;
 import com.intellij.lang.javascript.psi.JSProperty;
@@ -8,6 +10,7 @@ import com.intellij.lang.javascript.psi.JSProperty;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 @SuppressWarnings("unused")
 public class Setting
@@ -31,7 +34,24 @@ public class Setting
         return SettingContainer.ROOT_NAMESPACE + "." + path;
     }
 
-    public String getDefaultValue() { return defaultValue != null ? defaultValue.toString() : ""; }
+    public String getDefaultValue()
+    {
+        // Gson converts integers to doubles... lulz!
+        try
+        {
+            Double doubleValue = Double.parseDouble(defaultValue.toString());
+            return Integer.toString(doubleValue.intValue());
+        }
+        catch (Exception ignored) {}
+
+        if (defaultValue instanceof List || defaultValue instanceof Map)
+        {
+            Gson gson = new GsonBuilder().create();
+            return gson.toJson(defaultValue);
+        }
+
+        return defaultValue != null ? defaultValue.toString() : "";
+    }
 
     String getName() { return name; }
 
@@ -89,14 +109,13 @@ public class Setting
                 return quote + quote;
             case "Filepath":
             case "String":
+            case "String / Array(String)":
+            case "Array(String) / String":
                 return String.format("%s%s%s", quote, defaultValueString, quote);
             case "Integer":
             case "Array(String)":
             case "Unknown":
-            // Sooo... do these actually work?
-            case "String / Array(String)":
             case "Array(String / Array(String))":
-            case "Array(String) / String":
             case "Filepath / Array(Filepath)":
                 return defaultValueString;
             case "Boolean":

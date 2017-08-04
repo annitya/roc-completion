@@ -7,6 +7,7 @@ import com.intellij.lang.javascript.psi.JSExpression;
 import com.intellij.lang.javascript.psi.JSLiteralExpression;
 import com.intellij.lang.javascript.psi.JSProperty;
 import com.intellij.lang.javascript.psi.JSRecursiveWalkingElementVisitor;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,12 +53,51 @@ public class SettingVisitor extends JSRecursiveWalkingElementVisitor
 
         String defaultValue = setting.getDefaultValue();
 
-        if (value == null || !value.equals(defaultValue))
+        if (value == null)
+        {
+            return;
+        }
+
+        // Can't get hold of CodeStyleManager here because not dispatch. Manual labor ahead.
+        List<String> valueCandidates = generateCandidates(value);
+        List<String> defaultValueCandidates = generateCandidates(defaultValue);
+
+        Boolean someSortOfMatch = false;
+
+        for (String valueCandidate : valueCandidates)
+        {
+            if (defaultValueCandidates.contains(valueCandidate))
+            {
+                someSortOfMatch = true;
+                break;
+            }
+        }
+
+        if (!someSortOfMatch)
         {
             return;
         }
 
         holder.registerProblem(node, "Value equals default-value", new QuickFix());
+    }
+
+    // Good times!
+    private List<String> generateCandidates(String value)
+    {
+        List<String> candidates = new ArrayList<>();
+
+        String singleQuoteValue = value.replace("\"", "'");
+        String singleQuoteNoSpaceValue = singleQuoteValue.replace(" ", "");
+        String doubleQuoteValue = value.replace("'", "\"");
+        String doubleQuoteNoSpaceValue = doubleQuoteValue.replace(" ", "");
+
+        candidates.add(value);
+        candidates.add(singleQuoteValue);
+        candidates.add(singleQuoteNoSpaceValue);
+        candidates.add(doubleQuoteValue);
+        candidates.add(doubleQuoteNoSpaceValue);
+
+        return candidates;
     }
 
     @Override
