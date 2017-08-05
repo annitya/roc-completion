@@ -69,7 +69,7 @@ If there are, the completion will hit all the branches of your ugly config-tree,
 In progress
 -----------
 - Release 1.0.2
-                        
+- Add button for refreshing completions.                        
 - Add default-values by type as placeholders when there is no default-value.
                       
 Next version

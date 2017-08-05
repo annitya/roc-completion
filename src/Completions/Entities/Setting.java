@@ -27,7 +27,7 @@ public class Setting
 
     public String getDescription() { return description; }
 
-    String getPath() { return path; }
+    private String getPath() { return path; }
 
     public String getNamespace()
     {
@@ -41,7 +41,20 @@ public class Setting
 
     String getName() { return name; }
 
-    public String getType() { return type; }
+    public String getType()
+    {
+        if (path.equals("build.i18n.usePolyfill"))
+        {
+            type = "Boolean";
+        }
+
+        if (path.equals("build.templateValues"))
+        {
+            type = "String";
+        }
+
+        return type;
+    }
 
     void forwardDefaultValues()
     {
@@ -50,8 +63,17 @@ public class Setting
             defaultValue = new DefaultValue(null);
         }
 
-        defaultValue.setPath(path);
-        defaultValue.setType(type);
+        if (path.equals("runtime.head.meta"))
+        {
+            String parsedValue =
+                defaultValue.toString()
+                .replace("\\u003d", "-");
+
+            defaultValue = new DefaultValue(parsedValue);
+        }
+
+        defaultValue.setPath(getPath());
+        defaultValue.setType(getType());
     }
 
     public List<LookupElement> getSubCompletionVariants()

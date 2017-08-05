@@ -62,7 +62,7 @@ public class DefaultValue
 
         enumerationSource = enumerationSource
             .replace("/^", "")
-            .replace("$/", "")
+            .replace("$/i", "")
             .replace("/i", "");
 
         List<LookupElement> subCompletions = new ArrayList<>();
@@ -95,8 +95,8 @@ public class DefaultValue
         switch (nativeType)
         {
 //        "type": "Array(Object(String))",
-//        "type": ,
-//        "type": "Boolean / Integer",
+            case "Boolean / Integer":
+                return wrap("false/0", quote);
             case "Boolean / Function":
                 return wrap("Boolean/Function", quote);
             case "Enumeration":
@@ -110,6 +110,16 @@ public class DefaultValue
                 if (path.equals("runtime.https.port") && value == null)
                 {
                     defaultValueString = "443";
+                }
+
+                if (path.equals("dev.devMiddleware.aggregateTimeout"))
+                {
+                    return "0";
+                }
+
+                if (path.equals("dev.redux.devTools.instrument.maxAge"))
+                {
+                    return "0";
                 }
             case "Array(String)":
             case "Unknown":

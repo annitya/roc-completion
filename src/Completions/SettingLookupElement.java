@@ -181,6 +181,13 @@ class SettingLookupElement extends LookupElement
         String value = expressionValue.toString();
         // Don't need quote-offset for numerics.
         Integer quoteOffset = NumberUtils.isNumber(value) ? 0 : 1;
+        Integer valueLength = value.length();
+        // Default-value is false/0 and is quoted, but final value will be boolean or integer, so select quotes as well.
+        if (setting.getType().equals("Boolean / Integer"))
+        {
+            quoteOffset = 0;
+            valueLength += 2;
+        }
 
         Integer startOffset = expression.getTextOffset() + quoteOffset;
         Editor editor = context.getEditor();
@@ -189,7 +196,7 @@ class SettingLookupElement extends LookupElement
             .getCaretModel()
             .moveToOffset(startOffset);
 
-        Integer endOffset = startOffset + value.length();
+        Integer endOffset = startOffset + valueLength;
 
         editor
             .getSelectionModel()
