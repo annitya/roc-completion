@@ -19,6 +19,7 @@ public class SettingContainer
     {
         this();
         populateFlatList(settings);
+        forwardDefaultValues();
     }
 
     private void populateFlatList(List<SettingTreeNode> settings)
@@ -43,5 +44,10 @@ public class SettingContainer
             .stream()
             .filter(setting -> !existingSettings.containsKey(setting.getNamespace()))
             .collect(Collectors.toList());
+    }
+
+    private void forwardDefaultValues()
+    {
+        flatList.forEach((s, setting) -> setting.forwardDefaultValues());
     }
 }

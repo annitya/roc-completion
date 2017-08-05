@@ -2,20 +2,26 @@ package Completions;
 
 import Completions.Entities.Setting;
 import Framework.CompletionPreloader;
-import com.intellij.codeInsight.completion.CompletionContributor;
-import com.intellij.codeInsight.completion.CompletionParameters;
-import com.intellij.codeInsight.completion.CompletionResultSet;
+import com.intellij.codeInsight.completion.*;
 import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.lang.javascript.psi.JSProperty;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.util.PsiTreeUtil;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Collections;
 import java.util.List;
 
 public class RocSettingsProvider extends CompletionContributor
 {
+    @Nullable
+    @Override
+    public AutoCompletionDecision handleAutoCompletionPossibility(@NotNull AutoCompletionContext context)
+    {
+        return super.handleAutoCompletionPossibility(context);
+    }
+
     @Override
     public void fillCompletionVariants(@NotNull CompletionParameters parameters, @NotNull CompletionResultSet result)
     {
@@ -36,7 +42,11 @@ public class RocSettingsProvider extends CompletionContributor
             return;
         }
 
-        List<SettingLookupElement> completions = SettingCompletionBuilder.buildCompletions(parameters);
+        String prefix = result
+            .getPrefixMatcher()
+            .getPrefix();
+
+        List<SettingLookupElement> completions = SettingCompletionBuilder.buildCompletions(parameters, prefix);
 
         Boolean foundCompletions = completions.size() > 0;
         Boolean isExtendedCompletion = parameters.isExtendedCompletion();

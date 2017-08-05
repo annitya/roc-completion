@@ -22,7 +22,7 @@ public class Setting
     private Boolean canBeEmpty;
     private String cli;
     private String path;
-    private Object defaultValue;
+    private DefaultValue defaultValue;
     private List<String> extensions;
 
     public String getDescription() { return description; }
@@ -36,97 +36,27 @@ public class Setting
 
     public String getDefaultValue()
     {
-        // Gson converts integers to doubles... lulz!
-        try
-        {
-            Double doubleValue = Double.parseDouble(defaultValue.toString());
-            return Integer.toString(doubleValue.intValue());
-        }
-        catch (Exception ignored) {}
-
-        if (defaultValue instanceof List || defaultValue instanceof Map)
-        {
-            Gson gson = new GsonBuilder().create();
-            return gson.toJson(defaultValue);
-        }
-
-        return defaultValue != null ? defaultValue.toString() : "";
+        return defaultValue.toString();
     }
 
     String getName() { return name; }
 
     public String getType() { return type; }
 
-    public List<LookupElement> getSubCompletionVariants()
+    void forwardDefaultValues()
     {
-        String enumerationValueString = type;
-
-        Boolean hasCorrectEnding = enumerationValueString.endsWith("$/") || enumerationValueString.endsWith("/i");
-
-        if (!enumerationValueString.startsWith("/^") || !hasCorrectEnding)
+        if (defaultValue == null)
         {
-            return Collections.emptyList();
+            defaultValue = new DefaultValue(null);
         }
 
-        enumerationValueString = enumerationValueString
-            .replace("/^", "")
-            .replace("$/", "")
-            .replace("/i", "");
-
-        List<LookupElement> subCompletions = new ArrayList<>();
-
-        for (String subCompletion : enumerationValueString.split("\\|"))
-        {
-            if (subCompletion.equals(getDefaultValue()))
-            {
-                continue;
-            }
-
-            subCompletions.add(LookupElementBuilder.create(subCompletion));
-        }
-
-        return subCompletions;
+        defaultValue.setPath(path);
+        defaultValue.setType(type);
     }
 
-    private String getTargetValue(String quote)
+    public List<LookupElement> getSubCompletionVariants()
     {
-        String defaultValueString = getDefaultValue();
-
-        String nativeType = type;
-        Boolean isEnumeration = getSubCompletionVariants().size() > 0;
-
-        if (isEnumeration)
-        {
-            nativeType = "Enumeration";
-        }
-
-        switch (nativeType)
-        {
-//        "type": "Array(Object(String))",
-//        "type": "Boolean / Function",
-//        "type": "Boolean / Integer",
-            case "Enumeration":
-                return quote + quote;
-            case "Filepath":
-            case "String":
-            case "String / Array(String)":
-            case "Array(String) / String":
-                return String.format("%s%s%s", quote, defaultValueString, quote);
-            case "Integer":
-            case "Array(String)":
-            case "Unknown":
-            case "Array(String / Array(String))":
-            case "Filepath / Array(Filepath)":
-                return defaultValueString;
-            case "Boolean":
-                Boolean invertedDefaultValue = !Boolean.valueOf(defaultValueString);
-                return invertedDefaultValue.toString();
-            case "Object":
-                return "{}";
-            // You know... for readability.
-            default:
-                return defaultValueString;
-        }
+        return defaultValue.getSubCompletionVariants();
     }
 
     private String getFormattedRemainderPart(List<String> list, Integer index, String quote)
@@ -158,7 +88,7 @@ public class Setting
 
         String valueName = getFormattedRemainderPart(remainderParts, remainderParts.size() - 1, quote);
         // Insert an "intelligent" default-value.
-        String valuePart = String.format("%s: %s,", valueName, getTargetValue(quote));
+        String valuePart = String.format("%s: %s,", valueName, defaultValue.getTargetValue(quote));
 
         jsObject = String.format(jsObject, valuePart);
 

@@ -1,5 +1,7 @@
 package Framework;
 
+import Completions.Entities.DefaultValue;
+import Completions.Entities.DefaultValueDeserializer;
 import Completions.Entities.SettingContainer;
 import Completions.Entities.SettingTreeNode;
 import com.google.gson.Gson;
@@ -24,7 +26,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.stream.Collectors;
 
-class FetchCompletions extends Backgroundable implements PerformInBackgroundOption
+public class FetchCompletions extends Backgroundable implements PerformInBackgroundOption
 {
     FetchCompletions(@Nullable Project project) { //noinspection DialogTitleCapitalization
         super(project, "Fetching Roc-completions..."); }
@@ -39,7 +41,9 @@ class FetchCompletions extends Backgroundable implements PerformInBackgroundOpti
             Process process = commandLine.createProcess();
 
             String input = readInputStream(process.getInputStream());
-            Gson gson = new GsonBuilder().create();
+            Gson gson = new GsonBuilder()
+                .registerTypeAdapter(DefaultValue.class, new DefaultValueDeserializer())
+                .create();
 
             Type targetType = new TypeToken<List<SettingTreeNode>>() {}.getType();
             List<SettingTreeNode> settings = gson.fromJson(input, targetType);

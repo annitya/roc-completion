@@ -68,12 +68,12 @@ If there are, the completion will hit all the branches of your ugly config-tree,
 
 In progress
 -----------
-- Publish the damned thing.
-    - Waiting on JetBrains.
+- Release 1.0.2
+                        
+- Add default-values by type as placeholders when there is no default-value.
                       
 Next version
 ------------
-- Add default-values by type as placeholders when there is no default-value?
 - Divine the rather exotic types.
 - If the Roc-terminal is a bit sluggish to start, it will not be properly named. Oh the horror!
     - Wait for the tab.

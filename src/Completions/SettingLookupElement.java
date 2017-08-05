@@ -24,13 +24,11 @@ class SettingLookupElement extends LookupElement
 {
     private final String namespace;
     private final Setting setting;
-    private final String originalSettings;
 
-    SettingLookupElement(Setting setting, String namespace, String originalSettings)
+    SettingLookupElement(Setting setting, String namespace)
     {
         this.setting = setting;
         this.namespace = namespace;
-        this.originalSettings = originalSettings;
     }
 
     @NotNull
@@ -89,12 +87,14 @@ class SettingLookupElement extends LookupElement
     @Override
     public void handleInsert(InsertionContext context)
     {
-        // Revert document to original state... good times.
-        // This was actually the easiest way to remove any text the user entered.
-        context.getDocument().setText(originalSettings);
+        // Remove the text the user typed.
+        context
+            .getDocument()
+            .deleteString(context.getStartOffset(), context.getTailOffset());
+
         context.commitDocument();
 
-        // Grab the deepest property available for insertion...
+        // Grab the deepest property available for insertion... hø hø hø!
         JSProperty targetProperty = getTargetProperty(context.getFile());
         // Generate the remaining jsNotation.
         String quote = JSCodeStyleSettings.getQuote(targetProperty);
