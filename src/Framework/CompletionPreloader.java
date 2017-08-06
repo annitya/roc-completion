@@ -33,7 +33,7 @@ public class CompletionPreloader implements ProjectComponent
 
     public static void setCompletions(SettingContainer completions) { CompletionPreloader.completions = completions; }
 
-    private Boolean isRocProject()
+    private static Boolean isRocProject(Project project)
     {
         PsiFile[] configFiles = FilenameIndex.getFilesByName(project, ROC_CONFIG_FILE, GlobalSearchScope.projectScope(project));
         // No config-file, we're done here.
@@ -54,9 +54,14 @@ public class CompletionPreloader implements ProjectComponent
     @Override
     public void projectOpened()
     {
+        fetchCompletions(project);
+    }
+
+    public static void fetchCompletions(Project project)
+    {
         DumbService.getInstance(project).runWhenSmart(() ->
         {
-            if (!isRocProject())
+            if (!isRocProject(project))
             {
                 return;
             }

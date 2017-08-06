@@ -134,8 +134,6 @@ public class DefaultValue
             case "Boolean":
                 Boolean invertedDefaultValue = !Boolean.valueOf(defaultValueString);
                 return invertedDefaultValue.toString();
-            case "Object":
-                return "{}";
             // You know... for readability.
             default:
                 return defaultValueString;

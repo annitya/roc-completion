@@ -10,6 +10,7 @@
         <![CDATA[
             <h2>1.0.2</h2>
             <ul>
+                <li>Added button for refreshing completions.</li>
                 <li>Improved quality of inserted completions.</li>
                 <li>Better handling of auto-popup completions.</li>
                 <li>Cursor is now moved to relvant position when a completion has been inserted.</li>
@@ -55,10 +56,19 @@
             icon="RocIcons.ROC"
         />
 
+        <action
+            id="flageolett.roc.refresh_completions"
+            class="Actions.RefreshCompletions"
+            text="Refresh completions"
+            description="Retrieves fresh completions"
+            icon="AllIcons.Actions.Refresh"
+        />
+
         <group id="flageolett.roc" text="Roc" description="Roc JS">
             <separator/>
-            <reference ref="flageolett.roc.start_dev"/>
-            <add-to-group group-id="MainMenu" anchor="last"/>
+            <reference ref="flageolett.roc.start_dev" />
+            <reference ref="flageolett.roc.refresh_completions" />
+            <add-to-group group-id="MainMenu" anchor="last" />
             <add-to-group group-id="MainToolBar" anchor="last" />
         </group>
     </actions>

@@ -1,10 +1,11 @@
 package Actions;
 
+import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.project.Project;
 import org.jetbrains.plugins.terminal.TerminalView;
 
-public class Dev extends com.intellij.openapi.actionSystem.AnAction {
+public class Dev extends AnAction {
     @Override
     public void actionPerformed(AnActionEvent event)
     {
