@@ -71,10 +71,11 @@ If the Roc-terminal is a bit sluggish to start, it will not be properly named. O
 Did autocomplete mess up your config? Make sure there is no syntax-errors before you attempt autocomplete.
 If there are, the completion will hit all the branches of your ugly config-tree, and come out wrong.
 
+html.head.htmlAttributes refuses to be formatted properly.
+
 In progress
 -----------
-- Release 1.0.2                        
-- html.head.htmlAttributes refuses to be formatted properly.
+- Release 1.0.2                       
                       
 Next version
 ------------
@@ -108,5 +109,4 @@ Future versions
         - Is it even possible to resolve composite redux-state?
     - Yup... WebPack is on it's own node...
         - So... Where's that parsable documentation?
-            
-        
+                    
