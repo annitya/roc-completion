@@ -63,7 +63,8 @@ public class DefaultValue
         enumerationSource = enumerationSource
             .replace("/^", "")
             .replace("$/i", "")
-            .replace("/i", "");
+            .replace("/i", "")
+            .replace("$/", "");
 
         List<LookupElement> subCompletions = new ArrayList<>();
 
