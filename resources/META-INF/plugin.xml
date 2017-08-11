@@ -8,14 +8,18 @@
 
     <change-notes>
         <![CDATA[
+            <h2>1.0.3</h2>
+            <ul>
+                <li>Added auto-popup for sub-completions.</li>
+            </ul>
             <h2>1.0.2</h2>
             <ul>
                 <li>Added button for refreshing completions.</li>
                 <li>Improved quality of inserted completions.</li>
                 <li>Better handling of auto-popup completions.</li>
-                <li>Cursor is now moved to relvant position when a completion has been inserted.</li>
+                <li>Cursor is now moved to relevant position when a completion has been inserted.</li>
                 <li>Webpack-node is no longer reported to be a container.</li>
-                <li>Add sub-completions.</li>
+                <li>Added sub-completions.</li>
                 <li>Added inspection for redundant settings.</li>
                 <li>Preferred quotes is now honored.</li>
             </ul>
@@ -42,6 +46,7 @@
     <depends>JavaScript</depends>
 
     <extensions defaultExtensionNs="com.intellij">
+        <completion.confidence implementationClass="Completions.SubCompletionConfidence" order="first" language="JavaScript" />
         <completion.contributor language="JavaScript" implementationClass="Completions.RocSettingsProvider" order="first" />
         <documentationProvider implementation="Completions.RocDocumentationProvider" />
         <inspectionToolProvider implementation="Inspections.SettingInspectionProvider" />

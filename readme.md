@@ -71,29 +71,27 @@ If the Roc-terminal is a bit sluggish to start, it will not be properly named. O
 Did autocomplete mess up your config? Make sure there is no syntax-errors before you attempt autocomplete.
 If there are, the completion will hit all the branches of your ugly config-tree, and come out wrong.
 
-html.head.htmlAttributes refuses to be formatted properly.
 
 In progress
------------
-- Release 1.0.2                       
+-----------                 
+- html.head.htmlAttributes refuses to be formatted properly.
+    - Bring in the Nashorn.
+    - Testing of default-value seems pretty broken too.
+        - Should I perhaps make use of parallel-processing to prepare a formatted-version of the default-value?
+        - Maybe Nashorn can help here?
                       
 Next version
 ------------
-- Divine the rather exotic types.
+- Generate searchable documentation and show to the user.
+    - for "roc docs"
+    - and for available settings.
+
+- Inspection: Registered dependency already exported by Roc. 
+- Add babel (object) and webpack (function or object) completions.
+- Make debugging easy as pie!    
 - If the Roc-terminal is a bit sluggish to start, it will not be properly named. Oh the horror!
     - Wait for the tab.
         - Yeah this is pretty much impossible. Incredible...
-        
-Future versions
----------------
-- Auto-open dialogue for sub-completion-types.
-    - Invoking completions can only be done in dispatch/read-context.
-- Move to postStartupActivity for fetching completions?
-- inspections: wrong type for setting.
-- Provide references/goto from import { something } from 'config';
-    - Probably only need to reference base-elements.
-        - And should not override existing references as this will break the spacetime-continuum.
-            - Return both references perhaps?
 - Notifications about new roc-versions with changelog.
 - Toggle auto-refresh of browser-tab after dev-build.
     - Should be doable.
@@ -101,6 +99,24 @@ Future versions
     - How do I make a checkbox within the toolbar?
     - Persist between restarts?
         - Maybe add as a setting?
+        
+- Gather Roc-statistics. (config-settings, commands etc...)
+    - Should be optional.
+- Expose actions/hooks in a good way.
+- Move to postStartupActivity for fetching completions?
+- inspections: wrong type for setting.
+        
+Future versions
+---------------
+- Add auto-completion for available babel/webpack settings.
+    - Standalone plugin?
+    - Take a look at the internal-configuration validation present in WebPack.
+
+- Provide references/goto from import { something } from 'config';
+    - Probably only need to reference base-elements.
+        - And should not override existing references as this will break the spacetime-continuum.
+            - Return both references perhaps?
+    - Maybe as stand-alone plugin?
                     
 - completions and goto for:       
     - getSettings()

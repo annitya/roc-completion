@@ -86,11 +86,18 @@ public class DefaultValue
         String defaultValueString = this.toString();
 
         String nativeType = type;
-        Boolean isEnumeration = getSubCompletionVariants().size() > 0;
+        List<LookupElement> subCompletions = getSubCompletionVariants();
 
-        if (isEnumeration)
+        if (subCompletions.size() > 1)
         {
             nativeType = "Enumeration";
+        }
+        else if (subCompletions.size() == 1)
+        {
+            nativeType = "String";
+            defaultValueString = subCompletions
+                .get(0)
+                .getLookupString();
         }
 
         switch (nativeType)

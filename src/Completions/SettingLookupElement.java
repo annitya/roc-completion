@@ -2,6 +2,7 @@ package Completions;
 
 import Completions.Entities.Setting;
 import com.google.common.collect.Lists;
+import com.intellij.codeInsight.AutoPopupController;
 import com.intellij.codeInsight.completion.*;
 import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.codeInsight.lookup.LookupElementPresentation;
@@ -18,6 +19,7 @@ import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 class SettingLookupElement extends LookupElement
@@ -127,14 +129,21 @@ class SettingLookupElement extends LookupElement
             .reformat(value);
 
         value.replace(formattedValue);
-        // User does not need to edit bools.
-        if (setting.getType().equals("Boolean"))
+
+        List<LookupElement> subCompletions = setting.getSubCompletionVariants();
+        // User does not need to edit bools or enums with single value.
+        if (setting.getType().equals("Boolean") || subCompletions.size() == 1)
         {
             return;
         }
 
         context.commitDocument();
         moveCursor(context);
+
+        if (subCompletions.size() > 1)
+        {
+            AutoPopupController.getInstance(context.getProject()).scheduleAutoPopup(context.getEditor());
+        }
     }
 
     private void moveCursor(InsertionContext context)
