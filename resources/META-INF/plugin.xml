@@ -11,6 +11,7 @@
             <h2>1.0.3</h2>
             <ul>
                 <li>Added auto-popup for sub-completions.</li>
+                <li>Use postStartupActivity for fetching completions.</li>
             </ul>
             <h2>1.0.2</h2>
             <ul>
@@ -46,6 +47,7 @@
     <depends>JavaScript</depends>
 
     <extensions defaultExtensionNs="com.intellij">
+        <postStartupActivity implementation="Framework.CompletionPreloader" order="first" />
         <completion.confidence implementationClass="Completions.SubCompletionConfidence" order="first" language="JavaScript" />
         <completion.contributor language="JavaScript" implementationClass="Completions.RocSettingsProvider" order="first" />
         <documentationProvider implementation="Completions.RocDocumentationProvider" />
@@ -78,9 +80,5 @@
         </group>
     </actions>
 
-    <project-components>
-        <component>
-            <implementation-class>Framework.CompletionPreloader</implementation-class>
-        </component>
-    </project-components>
+    <project-components />
 </idea-plugin>

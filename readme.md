@@ -86,25 +86,34 @@ Next version
     - for "roc docs"
     - and for available settings.
 
-- Inspection: Registered dependency already exported by Roc. 
+- Inspections
+    - Registered dependency already exported by Roc.
+    - Wrong type for setting. 
+
 - Add babel (object) and webpack (function or object) completions.
+
 - Make debugging easy as pie!    
+
 - If the Roc-terminal is a bit sluggish to start, it will not be properly named. Oh the horror!
     - Wait for the tab.
         - Yeah this is pretty much impossible. Incredible...
+
 - Notifications about new roc-versions with changelog.
+
 - Toggle auto-refresh of browser-tab after dev-build.
     - Should be doable.
     - Is there a Chrome-cli utility available in Java?
     - How do I make a checkbox within the toolbar?
+        - Just make an action and toggle the icon.
     - Persist between restarts?
         - Maybe add as a setting?
         
 - Gather Roc-statistics. (config-settings, commands etc...)
     - Should be optional.
+
 - Expose actions/hooks in a good way.
-- Move to postStartupActivity for fetching completions?
-- inspections: wrong type for setting.
+
+- inspections: 
         
 Future versions
 ---------------

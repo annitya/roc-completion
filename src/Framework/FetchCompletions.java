@@ -10,15 +10,8 @@ import com.google.gson.reflect.TypeToken;
 import com.intellij.execution.configurations.GeneralCommandLine;
 import com.intellij.javascript.nodejs.interpreter.local.NodeJsLocalInterpreter;
 import com.intellij.javascript.nodejs.interpreter.local.NodeJsLocalInterpreterManager;
-import com.intellij.notification.*;
-import com.intellij.openapi.progress.PerformInBackgroundOption;
-import com.intellij.openapi.progress.ProgressIndicator;
-import com.intellij.openapi.progress.Task.Backgroundable;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
-import icons.RocIcons;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import java.io.*;
 import java.lang.reflect.Type;
 import java.net.URL;
@@ -26,45 +19,39 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class FetchCompletions extends Backgroundable implements PerformInBackgroundOption
+public class FetchCompletions
 {
-    FetchCompletions(@Nullable Project project) { //noinspection DialogTitleCapitalization
-        super(project, "Fetching Roc-completions..."); }
+    private Project project;
 
-    @Override
-    public void run(@NotNull ProgressIndicator progressIndicator)
+    public FetchCompletions(Project project)
     {
-        try
+        this.project = project;
+    }
+
+    public void run() throws Exception
+    {
+        // Prepare and run node-command which will fetch settings.
+        GeneralCommandLine commandLine = createCommandLine();
+        Process process = commandLine.createProcess();
+
+        String input = readInputStream(process.getInputStream());
+        Gson gson = new GsonBuilder()
+            .registerTypeAdapter(DefaultValue.class, new DefaultValueDeserializer())
+            .create();
+
+        Type targetType = new TypeToken<List<SettingTreeNode>>() {}.getType();
+        List<SettingTreeNode> settings = gson.fromJson(input, targetType);
+
+        if (settings == null)
         {
-            // Prepare and run node-command which will fetch settings.
-            GeneralCommandLine commandLine = createCommandLine();
-            Process process = commandLine.createProcess();
+            String error = readInputStream(process.getErrorStream());
+            String message = error.length() > 0 ? error : input;
 
-            String input = readInputStream(process.getInputStream());
-            Gson gson = new GsonBuilder()
-                .registerTypeAdapter(DefaultValue.class, new DefaultValueDeserializer())
-                .create();
-
-            Type targetType = new TypeToken<List<SettingTreeNode>>() {}.getType();
-            List<SettingTreeNode> settings = gson.fromJson(input, targetType);
-
-            if (settings == null)
-            {
-                String error = readInputStream(process.getErrorStream());
-                String message = error.length() > 0 ? error : input;
-
-                throw new Exception("Error occured while fetching completions: " + message);
-            }
-
-            SettingContainer completions = new SettingContainer(settings);
-            CompletionPreloader.setCompletions(completions);
+            throw new Exception("Error occured while fetching completions: " + message);
         }
-        catch (Exception e)
-        {
-            NotificationGroup group = new NotificationGroup("ROC_GROUP", NotificationDisplayType.STICKY_BALLOON, true, null, RocIcons.ROC);
-            Notification notification = group.createNotification("Failed to fetch roc-completions!", "", e.getMessage(), NotificationType.ERROR);
-            Notifications.Bus.notify(notification);
-        }
+
+        SettingContainer completions = new SettingContainer(settings);
+        CompletionPreloader.setCompletions(completions);
     }
 
     private GeneralCommandLine createCommandLine() throws Exception
@@ -73,7 +60,7 @@ public class FetchCompletions extends Backgroundable implements PerformInBackgro
         commandLine
             .withParentEnvironmentType(GeneralCommandLine.ParentEnvironmentType.CONSOLE)
             .withCharset(StandardCharsets.UTF_8)
-            .withWorkDirectory(myProject.getBasePath());
+            .withWorkDirectory(project.getBasePath());
 
         NodeJsLocalInterpreter interpreter = NodeJsLocalInterpreterManager
             .getInstance()
@@ -127,7 +114,7 @@ public class FetchCompletions extends Backgroundable implements PerformInBackgro
 
     private String getJsFilePath() throws Exception
     {
-        VirtualFile projectFile = myProject.getProjectFile();
+        VirtualFile projectFile = project.getProjectFile();
 
         if (projectFile == null)
         {

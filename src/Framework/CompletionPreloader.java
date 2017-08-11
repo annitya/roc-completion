@@ -1,24 +1,23 @@
 package Framework;
 
 import Completions.Entities.SettingContainer;
-import com.intellij.openapi.components.ProjectComponent;
-import com.intellij.openapi.progress.ProgressManager;
-import com.intellij.openapi.project.DumbService;
+import com.intellij.notification.*;
+import com.intellij.openapi.project.DumbAware;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.startup.StartupActivity;
 import com.intellij.psi.PsiFile;
-import com.intellij.psi.search.FilenameIndex;
-import com.intellij.psi.search.GlobalSearchScope;
+import icons.RocIcons;
 import org.jetbrains.annotations.NotNull;
 
-public class CompletionPreloader implements ProjectComponent
+import java.io.File;
+
+public class CompletionPreloader implements StartupActivity, DumbAware
 {
     private static final String ROC_CONFIG_FILE = "roc.config.js";
-    private final Project project;
     private static SettingContainer completions;
 
-    public CompletionPreloader(Project project)
+    public CompletionPreloader()
     {
-        this.project = project;
         completions = new SettingContainer();
     }
 
@@ -33,54 +32,27 @@ public class CompletionPreloader implements ProjectComponent
 
     public static void setCompletions(SettingContainer completions) { CompletionPreloader.completions = completions; }
 
-    private static Boolean isRocProject(Project project)
+    @Override
+    public void runActivity(@NotNull Project project)
     {
-        PsiFile[] configFiles = FilenameIndex.getFilesByName(project, ROC_CONFIG_FILE, GlobalSearchScope.projectScope(project));
-        // No config-file, we're done here.
-        if (configFiles.length != 1)
+        String expectedPath = project.getBasePath() + "/roc.config.js";
+        File configFile = new File(expectedPath);
+
+        if (!configFile.isFile())
         {
-            return false;
+            return;
         }
 
-        String expectedLocation = project
-            .getBaseDir()
-            .getPath() + "/" + ROC_CONFIG_FILE;
-
-        String actualLocation = configFiles[0].getVirtualFile().getPath();
-
-        return expectedLocation.equals(actualLocation);
-    }
-
-    @Override
-    public void projectOpened()
-    {
-        fetchCompletions(project);
-    }
-
-    public static void fetchCompletions(Project project)
-    {
-        DumbService.getInstance(project).runWhenSmart(() ->
+        try
         {
-            if (!isRocProject(project))
-            {
-                return;
-            }
-
-            FetchCompletions task = new FetchCompletions(project);
-            ProgressManager.getInstance().run(task);
-        });
+            FetchCompletions fetchCompletions = new FetchCompletions(project);
+            fetchCompletions.run();
+        }
+        catch (Exception e)
+        {
+            NotificationGroup group = new NotificationGroup("ROC_GROUP", NotificationDisplayType.STICKY_BALLOON, true, null, RocIcons.ROC);
+            Notification notification = group.createNotification("Failed to fetch roc-completions!", "", e.getMessage(), NotificationType.ERROR);
+            Notifications.Bus.notify(notification);
+        }
     }
-
-    @Override
-    public void projectClosed() {}
-
-    @Override
-    public void initComponent() {}
-
-    @Override
-    public void disposeComponent() { }
-
-    @NotNull
-    @Override
-    public String getComponentName() { return "Framework.CompletionPreloader"; }
 }
