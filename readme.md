@@ -26,7 +26,8 @@ Config-completions
 Config-sub-completions
 ----------------------
     1. Did you perhaps select an enumeration?
-    2. Request autocomplete again (<ctrl-space>) to see available values.
+    2. Expecto eneramtion-completions!
+    2. You can also request autocomplete manually (<ctrl-space>).
     3. Don't worry if the list seems a bit short. Default-values has been removed.
 
 Documentation
@@ -66,38 +67,41 @@ Troubleshooting
 
 Known issues
 ------------
-If the Roc-terminal is a bit sluggish to start, it will not be properly named. Oh the horror!
-
 Did autocomplete mess up your config? Make sure there is no syntax-errors before you attempt autocomplete.
 If there are, the completion will hit all the branches of your ugly config-tree, and come out wrong.
 
 
 In progress
------------                 
+-----------
+- Show default-value in quick-documentation.     
+                      
+Next version
+------------	
+- Add tests!
+
+- Fix "missing dependency" inspection.
+
 - html.head.htmlAttributes refuses to be formatted properly.
     - Bring in the Nashorn.
     - Testing of default-value seems pretty broken too.
         - Should I perhaps make use of parallel-processing to prepare a formatted-version of the default-value?
         - Maybe Nashorn can help here?
-                      
-Next version
-------------
+
 - Generate searchable documentation and show to the user.
     - for "roc docs"
     - and for available settings.
+
+- debug
+    - Add debug-runtime configuration-provider.
+    - Make debugging easy as pie!    
 
 - Inspections
     - Registered dependency already exported by Roc.
     - Wrong type for setting. 
 
 - Add babel (object) and webpack (function or object) completions.
-
-- Make debugging easy as pie!    
-
-- If the Roc-terminal is a bit sluggish to start, it will not be properly named. Oh the horror!
-    - Wait for the tab.
-        - Yeah this is pretty much impossible. Incredible...
-
+    - Json-schemas as are available as part of the JavaScriptLanguage.jar
+    
 - Notifications about new roc-versions with changelog.
 
 - Toggle auto-refresh of browser-tab after dev-build.
@@ -112,20 +116,20 @@ Next version
     - Should be optional.
 
 - Expose actions/hooks in a good way.
-
-- inspections: 
         
 Future versions
 ---------------
+- Special tab-color for you my friend?
+
 - Add auto-completion for available babel/webpack settings.
     - Standalone plugin?
     - Take a look at the internal-configuration validation present in WebPack.
 
-- Provide references/goto from import { something } from 'config';
-    - Probably only need to reference base-elements.
-        - And should not override existing references as this will break the spacetime-continuum.
-            - Return both references perhaps?
-    - Maybe as stand-alone plugin?
+- node-config:
+    - Resolve import { ... } from 'config'
+        - LegacyResolver will cache config.js as target.
+    - Separate plugin?
+        - A shared library perhaps?       
                     
 - completions and goto for:       
     - getSettings()
