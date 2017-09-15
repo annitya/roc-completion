@@ -12,6 +12,7 @@ import com.intellij.psi.PsiManager;
 import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
+import static org.apache.commons.lang.StringEscapeUtils.escapeHtml;
 
 public class RocDocumentationProvider implements DocumentationProvider, ExternalDocumentationProvider
 {
@@ -65,7 +66,21 @@ public class RocDocumentationProvider implements DocumentationProvider, External
             return "Just a container. Try looking at the sub-nodes instead.";
         }
 
-        return setting.getDescription();
+        String description = escapeHtml(setting.getDescription());
+        String descriptionTemplate = "<p>%s</p>";
+        String documentation = String.format(descriptionTemplate, description);
+
+        String defaultValue = escapeHtml(setting.getDefaultValue());
+
+        if (defaultValue.length() == 0)
+        {
+            return documentation;
+        }
+
+        String defaultValueTemplate = "<p>Default value: %s</p>";
+        String defaultValueDocumentation = String.format(defaultValueTemplate, defaultValue);
+
+        return documentation.concat(defaultValueDocumentation);
     }
 
     //region Unused methods.
