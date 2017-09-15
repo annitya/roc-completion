@@ -73,10 +73,11 @@ If there are, the completion will hit all the branches of your ugly config-tree,
 
 In progress
 -----------
-- Show default-value in quick-documentation.     
+- node-config:
+    - Resolve import { ... } from 'config'
                       
 Next version
-------------	
+------------
 - Add tests!
 
 - Fix "missing dependency" inspection.
