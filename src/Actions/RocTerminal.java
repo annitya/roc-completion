@@ -1,13 +1,9 @@
 package Actions;
 
 import com.intellij.openapi.project.Project;
-import com.jediterm.terminal.ui.JediTermWidget;
-import com.jediterm.terminal.ui.TerminalSession;
-import com.jediterm.terminal.ui.TerminalTabs;
-import com.jediterm.terminal.ui.TerminalWidget;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import org.jetbrains.plugins.terminal.JBTabbedTerminalWidget;
+import com.intellij.openapi.vfs.CharsetToolkit;
+import com.jediterm.terminal.TtyConnector;
+import com.pty4j.PtyProcess;
 import org.jetbrains.plugins.terminal.LocalTerminalDirectRunner;
 import java.util.Arrays;
 import java.util.Map;
@@ -17,42 +13,9 @@ class RocTerminal extends LocalTerminalDirectRunner {
     RocTerminal(Project project) { super(project); }
 
     @Override
-    public void openSessionInDirectory(@NotNull TerminalWidget terminalWidget, @Nullable String directory)
+    protected TtyConnector createTtyConnector(PtyProcess process)
     {
-        super.openSessionInDirectory(terminalWidget, directory);
-
-        JBTabbedTerminalWidget tabbedWidget;
-
-        try
-        {
-             tabbedWidget = (JBTabbedTerminalWidget)terminalWidget;
-        }
-        catch (Exception ignored)
-        {
-            return;
-        }
-
-        TerminalTabs tabs = tabbedWidget.getTerminalTabs();
-
-        if (tabs == null)
-        {
-            return;
-        }
-
-        TerminalSession currentSession = terminalWidget.getCurrentSession();
-
-        for (int i = 0; i < tabs.getTabCount(); i++)
-        {
-            JediTermWidget tab = tabs.getComponentAt(i);
-
-            if (!tab.getCurrentSession().equals(currentSession))
-            {
-                continue;
-            }
-
-            tabs.setTitleAt(i, "Roc JS");
-            break;
-        }
+        return new RocTtyConnector(process, CharsetToolkit.UTF8_CHARSET);
     }
 
     @Override
