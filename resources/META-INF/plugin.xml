@@ -12,6 +12,8 @@
             <ul>
                 <li>Added auto-popup for sub-completions.</li>
                 <li>Use postStartupActivity for fetching completions.</li>
+                <li>Documentation-provider no longer inters with other docs.</li>
+                <li>Terminal tab is now named properly.</li>
             </ul>
             <h2>1.0.2</h2>
             <ul>
