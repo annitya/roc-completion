@@ -10,7 +10,6 @@ import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiManager;
 import org.jetbrains.annotations.Nullable;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,6 +50,11 @@ public class RocDocumentationProvider implements DocumentationProvider, External
     @Override
     public String fetchExternalDocumentation(Project project, PsiElement psiElement, List<String> list)
     {
+        if (!CompletionPreloader.isRocConfigFile(psiElement.getContainingFile()))
+        {
+            return null;
+        }
+
         String qualifiedName = list.get(0);
         SettingContainer completions = CompletionPreloader.getCompletions();
 
