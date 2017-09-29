@@ -36,7 +36,7 @@ public class GotoConfigProperty implements GotoDeclarationHandler
             .filter(reference -> reference instanceof JsonConfigReference)
             .collect(Collectors.toList());
 
-        List<JsonProperty> properties = new ArrayList<>();
+        List<PresentableProperty> properties = new ArrayList<>();
 
         references
             .forEach(reference -> Arrays
@@ -44,6 +44,8 @@ public class GotoConfigProperty implements GotoDeclarationHandler
                 .filter(variant -> variant instanceof JsonProperty)
                 .map(variant -> (JsonProperty)variant)
                 .filter(property -> property.getName().equals(psiElement.getText()))
+                // Sure how this one doesn't blow up somehow.
+                .map(property -> new PresentableProperty(property.getNode()))
                 .forEach(properties::add)
             );
 
