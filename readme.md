@@ -55,6 +55,9 @@ Gotchas
 If you for some reason miss your regular completions, feel free to initiate completions a second time  
 while the dialogue is still visible. 
 
+When using js-config files IntelliJ will choose from the environment-candidates and select what it considers "the best one".
+Any setting that solely exists in the other config-files will not be visible nor resolved.
+
 If you attempt to start Roc via the toolbar and the terminal-tab just flickers, doublecheck that you actually  
 have Roc installed globally. Dumbass!  
 
@@ -74,12 +77,13 @@ If there are, the completion will hit all the branches of your ugly config-tree,
 In progress
 -----------
 - node-config:
-    - Resolve import { ... } from 'config'
-                      
+    - Resolve 'config' module.
+- Debugging: automatically add debugging for all environments.   
+    - This should replace the run button.                      
 Next version
 ------------
 - Add tests!
-
+- Unused config-settings inspection?
 - Fix "missing dependency" inspection.
 
 - html.head.htmlAttributes refuses to be formatted properly.

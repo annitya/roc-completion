@@ -43,7 +43,7 @@
         ]]>
     </change-notes>
 
-    <idea-version since-build="145.0"/>
+    <idea-version since-build="172.3757.52" />
 
     <depends>com.intellij.modules.platform</depends>
     <depends>org.jetbrains.plugins.terminal</depends>
@@ -53,8 +53,15 @@
         <postStartupActivity implementation="Framework.CompletionPreloader" order="first" />
         <completion.confidence implementationClass="Completions.SubCompletionConfidence" order="first" language="JavaScript" />
         <completion.contributor language="JavaScript" implementationClass="Completions.RocSettingsProvider" order="first" />
+        <completion.contributor language="JavaScript" implementationClass="NodeConfig.Json.JsonCompletionContributor" order="first" />
         <documentationProvider implementation="Completions.RocDocumentationProvider" />
         <inspectionToolProvider implementation="Inspections.SettingInspectionProvider" />
+        <gotoDeclarationHandler implementation="NodeConfig.Json.GotoConfigFile" order="first" />
+        <gotoDeclarationHandler implementation="NodeConfig.Json.GotoConfigProperty" order="first" />
+    </extensions>
+
+    <extensions defaultExtensionNs="JavaScript">
+        <moduleReferenceContributor implementation="NodeConfig.ConfigModuleReferenceContributor" order="first" />
     </extensions>
 
     <actions>
