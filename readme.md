@@ -77,16 +77,10 @@ If there are, the completion will hit all the branches of your ugly config-tree,
 Current
 -------
 - Test all functionality.
-- See if it's possible to create a reference-contributor for imported config-properties.
-- Provide goto/completion for deeper properties.
-- Add support for js-config-files.
-
-NodeFileModulePsiReference
+- Add full support for js-config-files.
 
 In progress
 -----------
-- node-config:
-    - Resolve 'config' module.
 - Debugging: automatically add debugging for all environments.   
     - This should replace the run button.                      
 
@@ -97,7 +91,6 @@ Next version
 - Fix "missing dependency" inspection.
 - node-config alternate syntax:
     - const basepath = config.get('api.basePath');
-
 
 - html.head.htmlAttributes refuses to be formatted properly.
     - Bring in the Nashorn.
