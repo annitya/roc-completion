@@ -8,6 +8,8 @@ import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.codeInsight.lookup.LookupElementBuilder;
 import com.intellij.json.psi.JsonProperty;
 import com.intellij.lang.ecmascript6.psi.ES6FromClause;
+import com.intellij.lang.ecmascript6.psi.ES6ImportDeclaration;
+import com.intellij.lang.ecmascript6.psi.ES6ImportSpecifier;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiReference;
 import com.intellij.psi.util.PsiTreeUtil;
@@ -16,7 +18,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class JsonCompletionContributor  extends CompletionContributor
+public class ImportCompletionContributor extends CompletionContributor
 {
     @Override
     public void fillCompletionVariants(@NotNull CompletionParameters parameters, @NotNull CompletionResultSet result)
@@ -49,6 +51,15 @@ public class JsonCompletionContributor  extends CompletionContributor
                 completions.put(name, lookupElement);
             }));
 
+        ES6ImportDeclaration importDeclaration = PsiTreeUtil.getParentOfType(position, ES6ImportDeclaration.class);
+        ES6ImportSpecifier[] importSpecifiers = importDeclaration != null ? importDeclaration.getImportSpecifiers() : ES6ImportSpecifier.EMPTY_ARRAY;
+
+        Arrays
+            .stream(importSpecifiers)
+            .forEach(importSpecifier -> {
+                String name = importSpecifier.getDeclaredName();
+                completions.remove(name);
+            });
         result.addAllElements(completions.values());
     }
 }

@@ -24,7 +24,10 @@ public class ConfigReference extends PsiReferenceBase<PsiElement>
 
     @NotNull
     @Override
-    public Object[] getVariants() { return EMPTY_ARRAY; }
+    public Object[] getVariants()
+    {
+        return EMPTY_ARRAY;
+    }
 
     @Override
     public TextRange getRangeInElement()

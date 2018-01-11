@@ -1,14 +1,13 @@
 package NodeConfig.Json;
 
 import NodeConfig.ConfigReference;
-import com.intellij.codeInsight.lookup.LookupElementBuilder;
 import com.intellij.json.psi.JsonProperty;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.util.PsiTreeUtil;
 import org.jetbrains.annotations.NotNull;
+
 import java.util.Arrays;
-import java.util.stream.Collectors;
 
 public class JsonConfigReference extends ConfigReference
 {
@@ -28,9 +27,6 @@ public class JsonConfigReference extends ConfigReference
             return EMPTY_ARRAY;
         }
 
-        return Arrays
-            .stream(properties)
-            .collect(Collectors.toList())
-            .toArray();
+        return Arrays.stream(properties).toArray();
     }
 }

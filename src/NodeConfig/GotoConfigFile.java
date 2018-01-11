@@ -1,4 +1,4 @@
-package NodeConfig.Json;
+package NodeConfig;
 
 import com.intellij.codeInsight.navigation.actions.GotoDeclarationHandler;
 import com.intellij.openapi.actionSystem.DataContext;
@@ -7,7 +7,6 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiReference;
 import org.jetbrains.annotations.Nullable;
 import java.util.Arrays;
-import java.util.stream.Collectors;
 
 public class GotoConfigFile implements GotoDeclarationHandler
 {
@@ -26,10 +25,8 @@ public class GotoConfigFile implements GotoDeclarationHandler
 
         return Arrays
             .stream(references)
-            .filter(reference -> reference instanceof JsonConfigReference)
-            .map(PsiReference::resolve)
-            .collect(Collectors.toList())
-            .toArray(new PsiElement[0]);
+            .filter(reference -> reference instanceof ConfigReference)
+            .map(PsiReference::resolve).toArray(PsiElement[]::new);
     }
 
     @Nullable

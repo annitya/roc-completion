@@ -51,13 +51,15 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <postStartupActivity implementation="Framework.CompletionPreloader" order="first" />
-        <completion.confidence implementationClass="Completions.SubCompletionConfidence" order="first" language="JavaScript" />
         <completion.contributor language="JavaScript" implementationClass="Completions.RocSettingsProvider" order="first" />
-        <completion.contributor language="JavaScript" implementationClass="NodeConfig.Json.JsonCompletionContributor" order="first" />
+        <completion.confidence implementationClass="Completions.SubCompletionConfidence" order="first" language="JavaScript" />
         <documentationProvider implementation="Completions.RocDocumentationProvider" />
         <inspectionToolProvider implementation="Inspections.SettingInspectionProvider" />
-        <gotoDeclarationHandler implementation="NodeConfig.Json.GotoConfigFile" order="first" />
-        <gotoDeclarationHandler implementation="NodeConfig.Json.GotoConfigProperty" order="first" />
+
+        <psi.referenceContributor language="JavaScript" implementation="NodeConfig.Json.ConfigAttributeReferenceProvider" order="first" />
+
+        <completion.contributor language="JavaScript" implementationClass="NodeConfig.Json.ImportCompletionContributor" order="first" />
+        <gotoDeclarationHandler implementation="NodeConfig.GotoConfigFile" order="first" />
     </extensions>
 
     <extensions defaultExtensionNs="JavaScript">

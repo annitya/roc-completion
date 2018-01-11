@@ -26,7 +26,7 @@ Config-completions
 Config-sub-completions
 ----------------------
     1. Did you perhaps select an enumeration?
-    2. Expecto eneramtion-completions!
+    2. Expecto enumeration-completions!
     2. You can also request autocomplete manually (<ctrl-space>).
     3. Don't worry if the list seems a bit short. Default-values has been removed.
 
@@ -66,7 +66,7 @@ How did I know that? Uh... nevermind that...
 Troubleshooting
 ---------------
     Try running the command: "node .idea/getSettings.js roc-config" from your project root-directory.
-    Output should be pure parsable json.
+    Output should be valid json.
 
 Known issues
 ------------
@@ -74,17 +74,30 @@ Did autocomplete mess up your config? Make sure there is no syntax-errors before
 If there are, the completion will hit all the branches of your ugly config-tree, and come out wrong.
 
 
+Current
+-------
+- Test all functionality.
+- See if it's possible to create a reference-contributor for imported config-properties.
+- Provide goto/completion for deeper properties.
+- Add support for js-config-files.
+
+NodeFileModulePsiReference
+
 In progress
 -----------
 - node-config:
     - Resolve 'config' module.
 - Debugging: automatically add debugging for all environments.   
     - This should replace the run button.                      
+
 Next version
 ------------
 - Add tests!
 - Unused config-settings inspection?
 - Fix "missing dependency" inspection.
+- node-config alternate syntax:
+    - const basepath = config.get('api.basePath');
+
 
 - html.head.htmlAttributes refuses to be formatted properly.
     - Bring in the Nashorn.
