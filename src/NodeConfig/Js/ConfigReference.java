@@ -1,4 +1,4 @@
-package NodeConfig;
+package NodeConfig.Js;
 
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.*;

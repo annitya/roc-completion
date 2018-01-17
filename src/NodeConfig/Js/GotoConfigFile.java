@@ -1,4 +1,4 @@
-package NodeConfig;
+package NodeConfig.Js;
 
 import com.intellij.codeInsight.navigation.actions.GotoDeclarationHandler;
 import com.intellij.openapi.actionSystem.DataContext;

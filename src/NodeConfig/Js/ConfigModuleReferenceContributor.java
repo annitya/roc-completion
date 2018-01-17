@@ -1,4 +1,4 @@
-package NodeConfig;
+package NodeConfig.Js;
 
 import NodeConfig.Json.JsonConfigReference;
 import com.intellij.lang.ecmascript6.psi.ES6FromClause;

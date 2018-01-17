@@ -59,11 +59,12 @@
         <psi.referenceContributor language="JavaScript" implementation="NodeConfig.Json.ConfigAttributeReferenceProvider" order="first" />
 
         <completion.contributor language="JavaScript" implementationClass="NodeConfig.Json.ImportCompletionContributor" order="first" />
-        <gotoDeclarationHandler implementation="NodeConfig.GotoConfigFile" order="first" />
+        <gotoDeclarationHandler implementation="NodeConfig.Js.GotoConfigFile" order="first" />
+        <gotoDeclarationHandler implementation="NodeConfig.Json.GotoConfigAttribute" order="first" />
     </extensions>
 
     <extensions defaultExtensionNs="JavaScript">
-        <moduleReferenceContributor implementation="NodeConfig.ConfigModuleReferenceContributor" order="first" />
+        <moduleReferenceContributor implementation="NodeConfig.Js.ConfigModuleReferenceContributor" order="first" />
     </extensions>
 
     <actions>

@@ -1,6 +1,6 @@
 package NodeConfig.Json;
 
-import NodeConfig.ConfigReference;
+import NodeConfig.Js.ConfigReference;
 import com.intellij.json.psi.JsonProperty;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
