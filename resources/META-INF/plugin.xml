@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>com.flageolett.roc</id>
     <name>Roc JS</name>
-    <version>1.0.2</version>
+    <version>1.0.3</version>
     <vendor email="henning.kvinnesland@gmail.com" url="https://github.com/whitefire/roc-completion">Flageolett</vendor>
 
     <description><![CDATA[Makes development with Roc even more pleasant.]]></description>
@@ -55,16 +55,6 @@
         <completion.confidence implementationClass="Completions.SubCompletionConfidence" order="first" language="JavaScript" />
         <documentationProvider implementation="Completions.RocDocumentationProvider" />
         <inspectionToolProvider implementation="Inspections.SettingInspectionProvider" />
-
-        <psi.referenceContributor language="JavaScript" implementation="NodeConfig.Json.ConfigAttributeReferenceProvider" order="first" />
-
-        <completion.contributor language="JavaScript" implementationClass="NodeConfig.Json.ImportCompletionContributor" order="first" />
-        <gotoDeclarationHandler implementation="NodeConfig.Js.GotoConfigFile" order="first" />
-        <gotoDeclarationHandler implementation="NodeConfig.Json.GotoConfigAttribute" order="first" />
-    </extensions>
-
-    <extensions defaultExtensionNs="JavaScript">
-        <moduleReferenceContributor implementation="NodeConfig.Js.ConfigModuleReferenceContributor" order="first" />
     </extensions>
 
     <actions>

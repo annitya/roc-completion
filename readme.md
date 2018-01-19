@@ -55,9 +55,6 @@ Gotchas
 If you for some reason miss your regular completions, feel free to initiate completions a second time  
 while the dialogue is still visible. 
 
-When using js-config files IntelliJ will choose from the environment-candidates and select what it considers "the best one".
-Any setting that solely exists in the other config-files will not be visible nor resolved.
-
 If you attempt to start Roc via the toolbar and the terminal-tab just flickers, doublecheck that you actually  
 have Roc installed globally. Dumbass!  
 
@@ -73,24 +70,16 @@ Known issues
 Did autocomplete mess up your config? Make sure there is no syntax-errors before you attempt autocomplete.
 If there are, the completion will hit all the branches of your ugly config-tree, and come out wrong.
 
-
 Current
 -------
-- Test all functionality.
-- Add full support for js-config-files.
-
-In progress
------------
 - Debugging: automatically add debugging for all environments.   
-    - This should replace the run button.                      
-
+    - This should replace the run button.
+                            
 Next version
 ------------
+
 - Add tests!
-- Unused config-settings inspection?
 - Fix "missing dependency" inspection.
-- node-config alternate syntax:
-    - const basepath = config.get('api.basePath');
 
 - html.head.htmlAttributes refuses to be formatted properly.
     - Bring in the Nashorn.
@@ -101,10 +90,6 @@ Next version
 - Generate searchable documentation and show to the user.
     - for "roc docs"
     - and for available settings.
-
-- debug
-    - Add debug-runtime configuration-provider.
-    - Make debugging easy as pie!    
 
 - Inspections
     - Registered dependency already exported by Roc.
@@ -130,18 +115,10 @@ Next version
         
 Future versions
 ---------------
-- Special tab-color for you my friend?
-
 - Add auto-completion for available babel/webpack settings.
     - Standalone plugin?
     - Take a look at the internal-configuration validation present in WebPack.
-
-- node-config:
-    - Resolve import { ... } from 'config'
-        - LegacyResolver will cache config.js as target.
-    - Separate plugin?
-        - A shared library perhaps?       
-                    
+                          
 - completions and goto for:       
     - getSettings()
     - Routes defined in configured middleware?
